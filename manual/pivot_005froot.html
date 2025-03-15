@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>pivot_root (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="pivot_root (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="pivot_root (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="chdir.html" rel="next" title="chdir">
+<link href="fstat.html" rel="prev" title="fstat">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="pivot_005froot">
+<div class="nav-panel">
+<p>
+Next: <a href="chdir.html" accesskey="n" rel="next">chdir</a>, Previous: <a href="fstat.html" accesskey="p" rel="prev">fstat</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="pivot_005froot-1"><span>9.18 pivot_root<a class="copiable-link" href="#pivot_005froot-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">int</span> <span style="color:#010181">pivot_root</span><span style="color:#000000">(</span><span style="color:#0057ae">char</span> <span style="color:#000000">*</span>new_root<span style="color:#000000">,</span> <span style="color:#0057ae">size_t</span> new_len<span style="color:#000000">,</span> <span style="color:#0057ae">char</span> <span style="color:#000000">*</span>old_root<span style="color:#000000">,</span> <span style="color:#0057ae">size_t</span> old_len<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall pivots the root FS of the system into a new root mountpoint
+mounted at <code class="code">new_root</code>. <code class="code">old_root</code> will be where the root mountpoint
+will be moved to. The current working directory is not changed in any way. And
+this change is system-wide, there is no mount namespace manipulation, unlike
+Linux.
+</p>
+<p><code class="code">old_root</code> can not exist inside the old root, and only exist inside
+<code class="code">new_root</code>.
+</p>
+<p>This syscall returns 0 on success or <code class="code">-1</code> on failure, with the errno:
+</p>
+<dl class="table">
+<dt><code class="code">EFAULT</code></dt>
+<dd><p>One of the buffers (or both) point to invalid memory.
+</p>
+</dd>
+<dt><code class="code">EINVAL</code></dt>
+<dd><p>The values passed do not point to actual mountpoints, or point to the same
+mountpoint.
+</p>
+</dd>
+<dt><code class="code">EACCES</code></dt>
+<dd><p>The caller process does not have the <code class="code">MAC_CAP_SYS_MNT</code> capability.
+</p></dd>
+</dl>
+
+</div>
+
+
+
+</body>
+</html>

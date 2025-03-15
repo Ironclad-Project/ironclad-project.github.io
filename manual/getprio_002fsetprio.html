@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>getprio/setprio (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="getprio/setprio (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="getprio/setprio (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="getgid_002fgetegid.html" rel="next" title="getgid/getegid">
+<link href="send_005fsignal.html" rel="prev" title="send_signal">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="getprio_002fsetprio">
+<div class="nav-panel">
+<p>
+Next: <a href="getgid_002fgetegid.html" accesskey="n" rel="next">getgid/getegid</a>, Previous: <a href="send_005fsignal.html" accesskey="p" rel="prev">send_signal</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="getprio_002fsetprio-1"><span>9.76 getprio/setprio<a class="copiable-link" href="#getprio_002fsetprio-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define PRIO_PROCESS 1</span>
+<span style="color:#008200">#define PRIO_PGRP 2</span>
+<span style="color:#008200">#define PRIO_USER 3</span>
+<span style="color:#008200">#define PRIO_THREAD 4</span>
+
+<span style="color:#008200">#define PRIO_MIN (-20)</span>
+<span style="color:#008200">#define PRIO_MAX 20</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">getprio</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> which<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> who<span style="color:#000000">);</span>
+<span style="color:#0057ae">int</span> <span style="color:#010181">setprio</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> which<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> who<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> prio<span style="color:#000000">);</span>
+</pre></div>
+
+<p>These syscalls get and set niceness values, <code class="code">which</code> says which entity
+to set the niceness to, while <code class="code">who</code> the pid or id of the entity, 0 for
+the current caller.
+</p>
+<p><code class="code">who</code> can be one of:
+</p>
+<dl class="table">
+<dt><code class="code">PRIO_PROCESS</code></dt>
+<dd><p>Get or set the default niceness of a process. When set, this will make new
+threads created by a process be created with this niceness value, and make all
+exiting threads have that niceness, along with making child processes inherit
+the passed niceness.
+</p>
+</dd>
+<dt><code class="code">PRIO_PGRP / PRIO_USER</code></dt>
+<dd><p>Unimplemented, for future features.
+</p>
+</dd>
+<dt><code class="code">PRIO_THREAD</code></dt>
+<dd><p>Get or set the niceness of the passed thread. Setting this value does not
+affect the process niceness, or what will be reported when getting it, it will
+just be an outliar until niceness is set again, either thread-wide or
+process-wide.
+</p></dd>
+</dl>
+
+<p><code class="code">getprio</code> returns the niceness and <code class="code">-1</code> on failure, while
+<code class="code">setprio</code> returns <code class="code">0</code> on success and <code class="code">-1</code> on failure. Both
+in failure feature the following errno:
+</p>
+<dl class="table">
+<dt><code class="code">EINVAL</code></dt>
+<dd><p>A value is not valid.
+</p></dd>
+</dl>
+
+</div>
+
+
+
+</body>
+</html>

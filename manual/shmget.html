@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>shmget (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="shmget (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="shmget (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="getsockopt_002fsetsockopt.html" rel="next" title="getsockopt/setsockopt">
+<link href="shmdl.html" rel="prev" title="shmdl">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="shmget">
+<div class="nav-panel">
+<p>
+Next: <a href="getsockopt_002fsetsockopt.html" accesskey="n" rel="next">getsockopt/setsockopt</a>, Previous: <a href="shmdl.html" accesskey="p" rel="prev">shmdl</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="shmget-1"><span>9.85 shmget<a class="copiable-link" href="#shmget-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define IPC_PRIVATE 0</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">shmget</span><span style="color:#000000">(</span>key_t key<span style="color:#000000">,</span> <span style="color:#0057ae">size_t</span> size<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> shmflg<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall fetches or creates a shared memory segment associated with
+<code class="code">key</code>.
+</p>
+<p>If <code class="code">key</code> is equal to <code class="code">IPC_PRIVATE</code>, a segment will be created with
+no associated key, and will need to be accessed by other processes only by
+the returned <code class="code">shmid</code>.
+</p>
+<p>The syscall returns a valid ID on success or <code class="code">-1</code> on failure, with the
+following errno:
+</p>
+<dl class="table">
+<dt><code class="code">EACCES</code></dt>
+<dd><p>MAC did not allow this.
+</p>
+</dd>
+<dt><code class="code">EEXISTS</code></dt>
+<dd><p>An attempt to create a public segment with an already registered key happened.
+</p>
+</dd>
+<dt><code class="code">ENOENT</code></dt>
+<dd><p>The fetched segment is not present.
+</p></dd>
+</dl>
+
+</div>
+
+
+
+</body>
+</html>

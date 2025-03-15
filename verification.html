@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Ironclad is a free software formally verified kernel written in SPARK/Ada"/>
+    <link rel="stylesheet" href="styles/ironclad.css">
+    <link rel="icon" type="image/x-icon" href="resources/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/ada.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <title>Ironclad - Verification</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="navbar-left">
+          <a href="index.html"><strong>Ironclad</strong></a>
+          <a href="manual/index.html"><img src="resources/documentation.svg"/>Documentation</a>
+          <a href="community.html"><img src="resources/community.svg"/>Community</a>
+          <a href="contributing.html"><img src="resources/contributing.svg"/>Contributing</a>
+        </div>
+        <div class="navbar-right">
+          <a href="https://github.com/streaksu/gloire/releases/"><img src="resources/languages.svg"/>English</a>
+          <a href="https://github.com/streaksu/gloire/releases/"><img src="resources/download.svg"/>Download</a>
+          <a href="https://savannah.nongnu.org/projects/ironclad/"><img src="resources/repositories.svg"/>Repositories</a>
+        </div>
+      </nav>
+    </header>
+    <section><main>
+      <h1>Formal Verification</h1>
+      <p>
+         Formal verification in Ironclad is done with the goals of ensuring
+         Abscence of Runtime Errors (AoRTE) and program correctness.
+      </p>
+      <p>
+         <b>Ironclad is not 100% verified code</b>. A majority of its
+         architecture-independent code lies somewhere within SPARK's spectrum,
+         and a big chunk of it is verified to high SPARK verification levels,
+         while architectural code is much less verified. Non-architectural code
+         is prioritized due to easier and more rewarding verification.
+      </p>
+      <h2>How much is formally verified?</h2>
+      <p>
+         Ironclad is divided on different subsystems, which can be seen in
+         the source code as subdirectories and Ada packages. Here is an
+         overview of the project:
+      </p>
+      <table>
+        <tr>
+          <th>Subsystem</th>
+          <th><a href="https://docs.adacore.com/spark2014-docs/html/ug/en/usage_scenarios.html#stone-level-valid-spark">SPARK's stone level progress</a></th>
+          <th><a href="https://docs.adacore.com/spark2014-docs/html/ug/en/usage_scenarios.html#silver-level-absence-of-run-time-errors-aorte">SPARK's silver/gold level progress</a></th>
+          <th>Verification quality*</th>
+        </tr>
+        <tr>
+          <td>arch</td>
+          <td style="background-color:green;color:white">Done</td>
+          <td>Pending on arch ports</td>
+          <td>Pending on arch ports</td>
+        </tr>
+        <tr>
+          <td>arch/riscv64-limine</td>
+          <td style="background-color:red;color:white">Not started</td>
+          <td>Pending on stone level</td>
+          <td>Pending on stone level</td>
+        </tr>
+        <tr>
+          <td>arch/x86_64-limine</td>
+          <td style="background-color:red;color:white">Not started</td>
+          <td>Pending on stone level</td>
+          <td>Pending on stone level</td>
+        </tr>
+        <tr>
+          <td>cryptography</td>
+          <td style="background-color:green;color:white">Done</td>
+          <td style="background-color:green;color:white">Done</td>
+          <td style="background-color:green;color:white">Full AoRTE</td>
+        </tr>
+        <tr>
+          <td>devices</td>
+          <td style="background-color:green;color:white">Done</td>
+          <td style="background-color:greenyellow">Mostly done</td>
+          <td style="background-color:greenyellow">Full AoRTE with sporadic small errors</td>
+        </tr>
+        <tr>
+          <td>ipc</td>
+          <td style="background-color:green;color:white">Done</td>
+          <td style="background-color:greenyellow">Mostly done</td>
+          <td style="background-color:greenyellow">Full AoRTE when applicable</td>
+        </tr>
+        <tr>
+          <td>lib</td>
+          <td style="background-color:green;color:white">Done</td>
+          <td style="background-color:green;color:white">Done</td>
+          <td style="background-color:green;color:white">Full AoRTE</td>
+        </tr>
+        <tr>
+          <td>memory</td>
+          <td style="background-color:green;color:white">Done</td>
+          <td style="background-color:red;color:white">Not started</td>
+          <td>Pending on verification</td>
+        </tr>
+        <tr>
+          <td>networking</td>
+          <td style="background-color:green;color:white">Done</td>
+          <td style="background-color:green;color:white">Done</td>
+          <td style="background-color:green;color:white">Full AoRTE</td>
+        </tr>
+        <tr>
+          <td>userland</td>
+          <td style="background-color:green;color:white">Done</td>
+          <td style="background-color:greenyellow">Mostly done</td>
+          <td style="background-color:greenyellow">Full AoRTE mostly, syscall bodies have errors</td>
+        </tr>
+        <tr>
+          <td>vfs</td>
+          <td style="background-color:green;color:white">Done</td>
+          <td style="background-color:orange;color:white">Partial</td>
+          <td style="background-color:orange;color:white">Full AoRTE on registry, drivers unverified</td>
+        </tr>
+      </table>
+      <p>
+        *Past silver level, SPARK provides no objective measures to quantify
+        verification coverage. Thus, this field is just a statement on quality
+        from the developers.
+      </p>
+      <div class="notice-panel">
+        <h3>Obtaining factual results</h3>
+        <p>
+          If you would like some hard numbers to back up the claims, Ironclad
+          is checkable locally using gnatprove with:
+        </p>
+          <pre><code>make prove</code></pre>
+        <p>
+          Further instructions are available on the project's <code>README</code>.
+        </p>
+      </div>
+      <h2>How it is done</h2>
+      <p>
+         Ironclad uses SPARK for formal verification. SPARK works with
+         contracts specified in Ada code itself. Which take the form of
+         preconditions, postconditions, and relationships between types and
+         variables. When not specified, SPARK infers them.
+      </p>
+      <p>
+         These verification mechanisms may appear in the source as:
+      </p>
+      <pre><code>
+procedure Substract
+   (Seconds1, Nanoseconds1 : in out Unsigned_64;
+    Seconds2, Nanoseconds2 : Unsigned_64)
+   with Pre =>
+      Is_Normalized (Nanoseconds1) and then
+      Is_Normalized (Nanoseconds2)
+         Post => Is_Normalized (Nanoseconds1);
+      </code></pre>
+      <p>
+         By checking these constructs across the whole codebase,
+         SPARK checkers, like GNATProve, by using a process called
+         <b>deductive verification</b>, are able to establish checkable
+         mathematical proofs that the code is checked against.
+      </p>
+    </main></section>
+    <footer>
+      <p>
+        Copyright © 2024 The Ironclad Project
+      </p>
+      <p>
+        We accept translations and other improvements in our savannah
+        page, using the patch and issue trackers.
+      </p>
+    </footer>
+  </body>
+</html>

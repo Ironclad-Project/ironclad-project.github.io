@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>manage_tcluster (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="manage_tcluster (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="manage_tcluster (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="fcntl.html" rel="next" title="fcntl">
+<link href="gettid.html" rel="prev" title="gettid">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="manage_005ftcluster">
+<div class="nav-panel">
+<p>
+Next: <a href="fcntl.html" accesskey="n" rel="next">fcntl</a>, Previous: <a href="gettid.html" accesskey="p" rel="prev">gettid</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="manage_005ftcluster-1"><span>9.28 manage_tcluster<a class="copiable-link" href="#manage_005ftcluster-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define SCHED_RR   0b001</span>
+<span style="color:#008200">#define SCHED_COOP 0b010</span>
+<span style="color:#008200">#define SCHED_INTR 0b100</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">manage_tcluster</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> cluster<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> flags<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> quantum<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> percentage<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall sets settings for the passed <code class="code">cluster</code>. Flags is a bitmap of:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">SCHED_RR</code>: Use a prioritized round robin as scheduling algorithm for
+threads inside the cluster. The quantum for niceness 0 will be <code class="code">quantum</code>.
+For more information on how quantums are used to calculate execution times,
+check <a class="ref" href="Thread-clustering-management.html">Thread clustering management</a>.
+</li><li><code class="code">SCHED_COOP</code>: Use cooperative scheduling as algorithm for the threads of
+the cluster, which will just pass execution on interruptions (if enabled),
+manual execution yielding, or end of the cluster&rsquo;s percentage. This flag
+conflicts with <code class="code">SCHED_RR</code>. <code class="code">quantum</code> is ignored for this algorithm.
+</li><li><code class="code">SCHED_INTR</code>: If set, the cluster will be interruptible, that means, it
+can have its threads rescheduled on IO events, or other situations deemed
+worthy by the kernel.
+</li></ul>
+
+<p>Quantum is the quantum for the algorithm chosen, in nanoseconds. Percentage
+is a 0 to 100 integer for the percentage of execution the cluster is given.
+</p>
+<p>The syscall returns <code class="code">0</code> on success and <code class="code">-1</code> on failure, with the
+following errno:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EACCES</code>: MAC did not allow the operation.
+</li><li><code class="code">EINVAL</code>: One of the passed values was not correct.
+</li></ul>
+
+</div>
+
+
+
+</body>
+</html>

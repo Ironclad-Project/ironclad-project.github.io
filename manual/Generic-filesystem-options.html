@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Generic filesystem options (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="Generic filesystem options (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="Generic filesystem options (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Filesystem-support-and-interfaces.html" rel="up" title="Filesystem support and interfaces">
+<link href="EXTended-filesystem-_0028EXT_0029.html" rel="next" title="EXTended filesystem (EXT)">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Generic-filesystem-options">
+<div class="nav-panel">
+<p>
+Next: <a href="EXTended-filesystem-_0028EXT_0029.html" accesskey="n" rel="next">EXTended filesystem (EXT)</a>, Up: <a href="Filesystem-support-and-interfaces.html" accesskey="u" rel="up">Filesystem support and interfaces</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Generic-filesystem-options-1"><span>10.1 Generic filesystem options<a class="copiable-link" href="#Generic-filesystem-options-1"> &para;</a></span></h3>
+
+<ul class="mini-toc">
+<li><a href="#relatime-and-noatime" accesskey="1"><code class="code">relatime</code> and <code class="code">noatime</code></a></li>
+</ul>
+<div class="subsection-level-extent" id="relatime-and-noatime">
+<h4 class="subsection"><span>10.1.1 <code class="code">relatime</code> and <code class="code">noatime</code><a class="copiable-link" href="#relatime-and-noatime"> &para;</a></span></h4>
+
+<p>Filesystems usually feature access, creation, and modification time tracking
+for their folders and files. These times are updated by the operating system,
+and later written to disk, increasing disk access.
+</p>
+<p>Modification and creation times are no big deal, but access times can carry a
+strong performance penalty, given read-only access is access. These access time
+updates can, over time, lead to missed performance on the table, and shorter
+lifespans for drives.
+</p>
+<p>In order to mitigate this, Ironclad allows filesystems to be mounted
+<code class="code">relatime</code> and <code class="code">noatime</code>. <code class="code">relatime</code> will make it so access
+times are only updated if the modify time is greater, making it so only one
+access post-modification is tracked. <code class="code">noatime</code> will not update access
+times at all.
+</p>
+<p>These flags can be applied on mount. <a class="ref" href="mount_002fumount.html">mount/umount</a>.
+</p>
+</div>
+</div>
+
+
+
+</body>
+</html>

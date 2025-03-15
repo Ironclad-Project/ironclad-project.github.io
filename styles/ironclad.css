@@ -1,0 +1,267 @@
+@font-face {
+    /*
+     * Font is taken from https://github.com/RedHatOfficial/RedHatFont
+     * The font is distributed under the SIL Open Font License, 1.1, that
+     * allows us to redistribute in this way.
+     */
+    font-family: 'Red Hat Text';
+    src: url('../resources/RedHatText.ttf');
+}
+
+/* Layout ********************************************************************/
+body {
+    width: 1000px;
+    margin:    auto;
+    left:      1%;
+    right:     1%;
+    position:  absolute;
+    font-family: 'Red Hat Text', Arial;
+    display: grid;
+    grid-gap: 20px;
+	 grid-template-columns: 333px 333px 333px;
+	 grid-template-areas:
+     "header header header"
+	 "content content content"
+	 "footer  footer  footer";
+}
+
+header {
+    grid-area: header;
+    border-bottom: 1px solid #ddd;
+}
+
+section {
+    grid-area: content;
+}
+
+footer {
+    border-top: 1px solid #ddd;
+    grid-area: footer;
+}
+/*****************************************************************************/
+
+h1, h2, h3, h4 {
+    color: #726B68;
+}
+
+h1, .logo {
+    font-weight: 800;
+    --s: 75px;
+    background: linear-gradient(135deg,#0000 18.75%,#DDD 0 31.25%,#0000 0),
+        repeating-linear-gradient(45deg,#DDD -6.25% 6.25%,#FFFFFF 0 18.75%);
+    background-size: var(--s) var(--s);
+}
+
+p {
+    color: #525252;
+}
+
+li {
+    color: #525252;
+}
+
+nav {
+    margin-top: 30px;
+    margin-bottom: 70px;
+    font-size: medium;
+}
+
+nav a {
+    text-decoration: none;
+    color: inherit;
+    margin-right: 30px;
+    align-items: center;
+}
+
+nav a img {
+    margin-right: 5px;
+}
+
+.navbar-left {
+    float: left;
+}
+
+.navbar-right {
+    float: right;
+}
+
+.linklist {
+    list-style: none;
+    padding-left: 0;
+}
+
+.buttonlist {
+    display: inline;
+}
+
+.buttonlist button {
+    margin-right: 10px;
+    margin-left:  10px;
+}
+
+img {
+    border-color: #726B68;
+}
+
+table {
+    width: 100%;
+    color: #525252;
+}
+
+td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+tr:nth-child(even) {
+   background: #CCC;
+}
+
+.rss-logo {
+    height: 0.75em;
+}
+
+.thanks-logo {
+    height: 130px;
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+.download-button {
+    background-color: #CCC;
+    border-radius: 8px;
+    border-width: 0;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 10px 12px;
+    text-align: center;
+    transition: all 200ms;
+    vertical-align: baseline;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.warning-panel {
+  overflow: hidden;
+  background-color: #F44336;
+  top: 0; /* Position the navbar at the top of the page */
+  display: block;
+  color: #f2f2f2;
+  padding: 14px 16px;
+}
+
+.warning-panel p, .warning-panel h3 {
+  color: #FFFFFF;
+}
+
+.notice-panel {
+  overflow: hidden;
+  background-color: #C5E4F3;
+  top: 0; /* Position the navbar at the top of the page */
+  display: block;
+  padding: 14px 16px;
+}
+
+.notice-panel p, .notice-panel h3 {
+  color: #31708F;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5px;
+}
+
+.hero h1 {
+    text-align: left;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.hero p {
+    text-align: left;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+/* Tiles for the main page */
+.tiles-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.tile {
+    flex: 1 0 300px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    text-decoration: none;
+    color: inherit;
+    margin-right: 30px;
+    align-items: center;
+    border: none;
+    font-size: medium;
+
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+.dropbtn img {
+    margin-right: 5px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}

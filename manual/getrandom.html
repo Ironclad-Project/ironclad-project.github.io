@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>getrandom (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="getrandom (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="getrandom (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="mac_005fcapabilities.html" rel="next" title="mac_capabilities">
+<link href="exit_005fthread.html" rel="prev" title="exit_thread">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="getrandom">
+<div class="nav-panel">
+<p>
+Next: <a href="mac_005fcapabilities.html" accesskey="n" rel="next">mac_capabilities</a>, Previous: <a href="exit_005fthread.html" accesskey="p" rel="prev">exit_thread</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="getrandom-1"><span>9.31 getrandom<a class="copiable-link" href="#getrandom-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted">ssize_t <span style="color:#010181">getrandom</span><span style="color:#000000">(</span><span style="color:#0057ae">void</span> <span style="color:#000000">*</span>buffer<span style="color:#000000">,</span> <span style="color:#0057ae">size_t</span> length<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall fills the buffer pointed to <code class="code">buffer</code> with up to <code class="code">length</code>
+random bytes. These bytes can be used for cryptographic purposes.
+</p>
+<p>The operation is the same as reading from <code class="code">/dev/random</code>. It is provided
+instead of just reading from the device as to avoid denial of service attacks
+based on exhausting the file descriptor limit of the system, along with other
+vulnerabilities and inconveniences related to the classic file interface.
+</p>
+<p>The syscall returns the count of read random data or <code class="code">-1</code> on failure, and
+sets the following errno:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EFAULT</code>: <code class="code">buffer</code> points to invalid memory.
+</li><li><code class="code">EACCES</code>: MAC disallowed this.
+</li></ul>
+
+</div>
+
+
+
+</body>
+</html>

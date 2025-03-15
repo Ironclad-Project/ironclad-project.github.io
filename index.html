@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Ironclad is a free software formally verified kernel written in SPARK/Ada"/>
+    <link rel="stylesheet" href="styles/ironclad.css">
+    <link rel="icon" type="image/x-icon" href="resources/favicon.ico">
+    <title>Ironclad</title>
+    <link rel="alternate" hreflang="en" href="https://ironclad.nongnu.org/index.html"/>
+    <link rel="alternate" hreflang="es" href="https://ironclad.nongnu.org/es/index.html"/>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="navbar-left">
+          <a href="index.html"><strong>Ironclad</strong></a>
+          <a href="manual/index.html"><img src="resources/documentation.svg"/>Documentation</a>
+          <a href="community.html"><img src="resources/community.svg"/>Community</a>
+          <a href="contributing.html"><img src="resources/contributing.svg"/>Contributing</a>
+        </div>
+        <div class="navbar-right">
+          <div class="dropdown">
+            <button class="dropbtn"><img src="resources/languages.svg"/>English</button>
+            <div class="dropdown-content">
+              <a href="index.html">English</a>
+              <a href="es/index.html">Español</a>
+            </div>
+          </div>
+          <a href="https://github.com/streaksu/gloire/releases/"><img src="resources/download.svg"/>Download</a>
+          <a href="https://savannah.nongnu.org/projects/ironclad/"><img src="resources/repositories.svg"/>Repositories</a>
+        </div>
+      </nav>
+    </header>
+    <section>
+      <div class="hero">
+        <div>
+          <h1>The <b>Ironclad</b> Operating System Kernel</h1>
+          <p>
+            Ironclad is a <a href="verification.html">formally verified</a>, real-time capable, UNIX-like
+            operating system kernel for general-purpose and embedded uses. It is written in
+            <a href="https://www.adacore.com/about-spark">SPARK</a> and
+            <a href="https://en.wikipedia.org/wiki/Ada_(programming_language)">Ada</a>, and
+            is comprised of 100% free software.
+          </p>
+          <p>
+            Ironclad features a familiar <a href="https://en.wikipedia.org/wiki/POSIX">POSIX</a>-compatible interface, true
+            simultaneous preemptive multitasking, <a href="https://en.wikipedia.org/wiki/Mandatory_access_control">Mandatory Access Control (MAC)</a>,
+            and support for hard real-time scheduling.
+          </p>
+          <div class="buttonlist">
+            <button class="download-button" role="button" onclick="window.location.href='https://github.com/streaksu/gloire/releases/';">Download a distribution</button>
+            <button class="download-button" role="button" onclick="window.location.href='https://download.savannah.nongnu.org/releases/ironclad/';">Download an Ironclad tarball</button>
+          </div>
+        </div>
+        <a href="takao.html"><img src="resources/screenshot.png" width="100%"></a>
+      </div>
+      <div style="padding: 20px; text-align: center;">
+        <h2>Why Choose Ironclad?</h2>
+        <div class="tiles-container">
+          <div class="tile">
+            <h2><img src="resources/foss.svg" style="margin-right: 5px" width="6%"/>Free as in freedom</h2>
+            <p>
+              Ironclad is fully open source and distributed under the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a>, ensuring
+              Ironclad remains free. No firmware blobs are needed or shipped with the
+              kernel. Every piece of the stack is open source.
+            </p>
+          </div>
+          <div class="tile">
+            <h2><img src="resources/formalverification.svg" style="margin-right: 5px" width="6%"/>Formal verification</h2>
+            <p>
+              <a href="https://www.adacore.com/about-spark">SPARK</a>'s state of the art <a href="verification.html">formal verification</a> is employed for ensuring
+              absence of errors and correctness of huge swathes of Ironclad, like
+              cryptography, <a href="https://en.wikipedia.org/wiki/Mandatory_access_control">MAC</a>, and user-facing facilities.
+            </p>
+          </div>
+          <div class="tile">
+            <h2><img src="resources/portable.svg" style="margin-right: 5px" width="6%"/>Portable</h2>
+            <p>
+              Ported to several platforms and boards, and designed to be easily
+              portable to many more easily. Dependency on only the GNU toolchain
+              allows for easy cross-compilation.
+            </p>
+          </div>
+          <div class="tile">
+            <h2><img src="resources/ecosystem.svg" style="margin-right: 5px" width="6%"/>Distributions and ecosystem</h2>
+            <p>
+              <a href="https://en.wikipedia.org/wiki/POSIX">POSIX</a> compatibility makes software porting and development easy.
+              The project features distributions ready for download and use for
+              all the available architectures and boards, the most prominent FOSS one
+              is <a href="https://github.com/Ironclad-Project/Gloire">Gloire</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div div style="padding: 20px; text-align: center;">
+        <h2>Recent news <a href="https://savannah.nongnu.org/news/atom.php?group=ironclad"><img class="rss-logo" alt="rss logo" src="resources/feed.svg"></a></h2>
+        <div style="text-align: left; border-bottom: 1px solid #ddd">
+          <h3>util-ironclad 0.1.0 released</h3>
+          <p>2025-Mar-04</p>
+          <p>
+            This release marks the first release of util-ironclad, the ironclad
+            alternative for util-linux that distro maintainers can use for
+            providing system management userland utilities like blkid, ps, dmesg,
+            lspci, mount/umount, and the like.
+          </p>
+          <p>
+            <a href="https://savannah.nongnu.org/news/?id=10733">Read more</a>
+          </p>
+        </div>
+        <div style="text-align: left; border-bottom: 1px solid #ddd">
+          <h3>Moving from Paypal to Stripe for donations</h3>
+          <p>2025-Mar-02</p>
+          <p>
+            Ironclad will be moving for its donations to Stripe from Paypal. This
+            is done to make our processing easier and allowing people to do
+            donations without a PayPal account, just using a credit card or
+            bank transfer. We feel this is way more privacy respecting and will
+          </p>
+          <p>
+            <a href="https://savannah.nongnu.org/news/?id=10731">Read more</a>
+          </p>
+        </div>
+        <div style="text-align: left; border-bottom: 1px solid #ddd">
+          <h3>Ironclad 0.6.0 released</h3>
+          <p>2025-Feb-01</p>
+          <p>
+            This release comes after a long gap of releases, and has had massive work done on
+            almost every aspect of the kernel. Because of this, I find it hard to summarize
+            the changes, but a gist of it is:
+          </p>
+          <p>
+            <a href="https://savannah.nongnu.org/news/?id=10719">Read more</a>
+          </p>
+        </div>
+        <p>
+          Further news can be read
+          <a href="https://savannah.nongnu.org/news/?group_id=12228">here</a>.
+        </p>
+      </div>
+      <div div style="padding: 20px; text-align: center;">
+        <h2>Who pays for Ironclad?</h2>
+        <div style="text-align: left">
+          <p>
+            Ironclad is fully community supported by the use of donations.
+            Donations enable us to spend more time working on the project and help
+            cover development expenses. We appreciate donations of any size.
+          </p>
+          <p>
+            We are also happy to consider making particular improvements or
+            changes, or giving specific technical assistance, in return for
+            a donation.  If you would like to discuss this possibility,
+            please send us an email to
+            <a href="mailto:streaksu@mailbox.org">streaksu@mailbox.org</a>.
+          </p>
+          <p>
+            If desired, the name of the donor can be added to this site's thank you
+            section in the index, please send us an email for that.
+          </p>
+          </div>
+        <div style="text-align: center;">
+          <p><b>Thanks for your support!</b></p>
+          <a href="https://liberapay.com/streaksu/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg" style="width:150px;height:50px;"></a>
+        </div>
+      </div>
+      <div div style="padding: 20px; text-align: center;">
+        <h2>Thanks to</h2>
+        <a href="https://adacore.com"><img class="thanks-logo" src="resources/adacore.svg" alt="AdaCore"></a>
+        <a href="https://limine-bootloader.org"><img class="thanks-logo" src="resources/limine.png" alt="Limine"></a>
+        <a href="https://fsf.org"><img class="thanks-logo" src="resources/fsf.svg" alt="Free Software Foundation"></a>
+        <a href="https://nlnet.nl"><img class="thanks-logo" src="resources/nlnet.svg" alt="NLNet"></a>
+      </div>
+    </section>
+    <footer>
+      <p>
+        Copyright © 2025 The Ironclad Project
+      </p>
+      <p>
+        We accept translations and other improvements in our savannah
+        page, using the patch and issue trackers.
+      </p>
+      <p>
+        Icons on this site are provided kindly by the MATE project as part of
+        <a href="https://github.com/mate-desktop/mate-icon-theme">mate-icon-theme</a>. They
+        are distributed separately under the CC BY-SA 3.0
+      </p>
+    </footer>
+  </body>
+</html>

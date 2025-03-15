@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>fstat (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="fstat (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="fstat (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="pivot_005froot.html" rel="next" title="pivot_root">
+<link href="unlink.html" rel="prev" title="unlink">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="fstat">
+<div class="nav-panel">
+<p>
+Next: <a href="pivot_005froot.html" accesskey="n" rel="next">pivot_root</a>, Previous: <a href="unlink.html" accesskey="p" rel="prev">unlink</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="fstat-1"><span>9.17 fstat<a class="copiable-link" href="#fstat-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> stat <span style="color:#000000">{</span>
+    dev_t st_dev<span style="color:#000000">;</span>
+    ino_t st_ino<span style="color:#000000">;</span>
+    mode_t st_mode<span style="color:#000000">;</span>
+    nlink_t st_nlink<span style="color:#000000">;</span>
+    uid_t st_uid<span style="color:#000000">;</span>
+    gid_t st_gid<span style="color:#000000">;</span>
+    dev_t st_rdev<span style="color:#000000">;</span>
+    off_t st_size<span style="color:#000000">;</span>
+    <span style="color:#0057ae">struct</span> timespec st_atim<span style="color:#000000">;</span>
+    <span style="color:#0057ae">struct</span> timespec st_mtim<span style="color:#000000">;</span>
+    <span style="color:#0057ae">struct</span> timespec st_ctim<span style="color:#000000">;</span>
+    blksize_t st_blksize<span style="color:#000000">;</span>
+    blkcnt_t st_blocks<span style="color:#000000">;</span>
+<span style="color:#000000">};</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">fstat</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> dir_fd<span style="color:#000000">,</span> <span style="color:#0057ae">char</span> <span style="color:#000000">*</span>path<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> len<span style="color:#000000">,</span> <span style="color:#0057ae">struct</span> stat <span style="color:#000000">*</span>statbuf<span style="color:#000000">,</span>
+   <span style="color:#0057ae">int</span> flags<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscalls return information about a file, be it an already opened one with
+<code class="code">dir_fd</code> and <code class="code">AT_EMPTY_PATH</code> in <code class="code">flags</code>, or by relatively
+opening, either following or not following symlinks with
+<code class="code">AT_SYMLINK_NOFOLLOW</code>.
+</p>
+<p><code class="code">0</code> is returned on success, <code class="code">-1</code> on failure, with the following errno:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EBADF</code>: The passed path or file descriptor is not valid.
+
+</li><li><code class="code">ENOENT</code>: The file pointed by <code class="code">path</code> does not exist.
+
+</li><li><code class="code">EFAULT</code>: The passed address for the path or stat buffer is not valid.
+</li></ul>
+
+<p>This syscalls return information about a file, be it an already opened one with
+<code class="code">dir_fd</code> and <code class="code">AT_EMPTY_PATH</code> in <code class="code">flags</code>, or by relatively
+opening, either following or not following symlinks with
+<code class="code">AT_SYMLINK_NOFOLLOW</code>.
+</p>
+<p><code class="code">0</code> is returned on success, <code class="code">-1</code> on failure, with the following errno:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EBADF</code>: The passed path or file descriptor is not valid.
+
+</li><li><code class="code">ENOENT</code>: The file pointed by <code class="code">path</code> does not exist.
+
+</li><li><code class="code">EFAULT</code>: The passed address for the path or stat buffer is not valid.
+</li></ul>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="pivot_005froot.html">pivot_root</a>, Previous: <a href="unlink.html">unlink</a>, Up: <a href="Syscalls.html">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

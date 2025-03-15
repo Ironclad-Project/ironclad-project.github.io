@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>futex (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="futex (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="futex (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="clock.html" rel="next" title="clock">
+<link href="shutdown.html" rel="prev" title="shutdown">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="futex">
+<div class="nav-panel">
+<p>
+Next: <a href="clock.html" accesskey="n" rel="next">clock</a>, Previous: <a href="shutdown.html" accesskey="p" rel="prev">shutdown</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="futex-1"><span>9.64 futex<a class="copiable-link" href="#futex-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> futex_item <span style="color:#000000">{</span>
+    <span style="color:#0057ae">uint64_t</span> addr<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint32_t</span> expected<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint32_t</span> flags<span style="color:#000000">;</span>
+<span style="color:#000000">};</span>
+
+<span style="color:#008200">#define FUTEX_WAIT 1</span>
+<span style="color:#008200">#define FUTEX_WAKE 2</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">futex</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> operation<span style="color:#000000">,</span> <span style="color:#0057ae">struct</span> futex_item <span style="color:#000000">*</span>futexes<span style="color:#000000">,</span> <span style="color:#0057ae">size_t</span> count<span style="color:#000000">,</span>
+    <span style="color:#0057ae">struct</span> timespec <span style="color:#000000">*</span>time<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall helps implement fast userland mutexes (futexes!). It is typically
+used as a blocking construct in the context of shared-memory synchronization.
+</p>
+<p>When using futexes, the majority of the synchronization operations are
+performed in user space by atomically testing for a 32-bit value. User-space is
+to use <code class="code">futex</code> only when it is likely that the program has to block for a
+longer time until the condition becomes true. Other <code class="code">futex</code> operations
+can be used to wake any processes or threads waiting for an address.
+</p>
+<p>When executing a futex operation that requests to block a thread, the kernel
+will block only if the futex contents has the value that the call suplied under
+<code class="code">expected</code>. The loading of the futex&rsquo;s contents and comparison of that
+value are atomic, and will be totally ordered with respect to concurrent
+operations performed by other threads on the same futex contents. Thus, the
+futex contents are used to connect the synchronization in user space with the
+implementation of blocking by the kernel. Analogously to an atomic
+compare-and-exchange operation that potentially changes shared memory, blocking
+via a futex is an atomic compare-and-block operation. When blocked, the kernel
+will calmly wait for waking by <code class="code">FUTEX_WAKE</code>, waking is not automatic once
+the values are acquired.
+</p>
+<p>Note that no explicit initialization or destruction is necessary to use
+futexes; the kernel maintains a futex only while operations such as
+<code class="code">FUTEX_WAIT</code> are being performed on particular futex contents.
+</p>
+<p>When compared with other implementations like Linux&rsquo;s, Ironclad&rsquo;s allows for
+waiting and waking several futexes at once, this is done as to ease handling
+several futexes at once.
+</p>
+<p>The available futex operations are:
+</p>
+<dl class="table">
+<dt><code class="code">FUTEX_WAIT</code></dt>
+<dd><p>The passed values in futexes will be waited for.
+</p>
+</dd>
+<dt><code class="code">FUTEX_WAKE</code></dt>
+<dd><p>The passed values in futexes will be woken up.
+</p></dd>
+</dl>
+
+<p>The syscall returns <code class="code">0</code> on success or <code class="code">-1</code> on failure, with the
+following errno:
+</p>
+<dl class="table">
+<dt><code class="code">EFAULT</code></dt>
+<dd><p>The passed addresses would fault if accessed.
+</p>
+</dd>
+<dt><code class="code">EINVAL</code></dt>
+<dd><p>The passed operation is not valid.
+</p></dd>
+</dl>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="clock.html">clock</a>, Previous: <a href="shutdown.html">shutdown</a>, Up: <a href="Syscalls.html">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>set_mac_enforcement (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="set_mac_enforcement (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="set_mac_enforcement (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="mount_002fumount.html" rel="next" title="mount/umount">
+<link href="add_005fmac_005fpermissions.html" rel="prev" title="add_mac_permissions">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="set_005fmac_005fenforcement">
+<div class="nav-panel">
+<p>
+Next: <a href="mount_002fumount.html" accesskey="n" rel="next">mount/umount</a>, Previous: <a href="add_005fmac_005fpermissions.html" accesskey="p" rel="prev">add_mac_permissions</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="set_005fmac_005fenforcement-1"><span>9.34 set_mac_enforcement<a class="copiable-link" href="#set_005fmac_005fenforcement-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define MAC_DENY            0b001</span>
+<span style="color:#008200">#define MAC_DENY_AND_SCREAM 0b010</span>
+<span style="color:#008200">#define MAC_KILL            0b100</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">set_mac_enforcement</span><span style="color:#000000">(</span><span style="color:#0057ae">unsigned long</span> request<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall sets the action to take for enforcement on MAC issues as explained
+in <a class="ref" href="Mandatory-access-control-_0028MAC_0029.html">Mandatory access control (MAC)</a>.
+</p>
+<p>The syscall returns <code class="code">0</code> on success or <code class="code">-1</code> on failure, with the
+following errno:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EACCES</code>: MAC was locked.
+</li></ul>
+
+</div>
+
+
+
+</body>
+</html>

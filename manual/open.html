@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>open (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="open (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="open (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="close.html" rel="next" title="close">
+<link href="arch_005fprctl.html" rel="prev" title="arch_prctl">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="open">
+<div class="nav-panel">
+<p>
+Next: <a href="close.html" accesskey="n" rel="next">close</a>, Previous: <a href="arch_005fprctl.html" accesskey="p" rel="prev">arch_prctl</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="open-1"><span>9.5 open<a class="copiable-link" href="#open-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">int</span> <span style="color:#010181">open</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> dir_fd<span style="color:#000000">,</span> <span style="color:#0057ae">char</span> <span style="color:#000000">*</span>path<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> path_len<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> flags<span style="color:#000000">);</span>
+</pre></div>
+
+<p><code class="code">open</code> opens the passed file relative to <code class="code">dir_fd</code>, depending on the
+flags passed. It does not create the file if not existent. By default, the file
+descriptor will remain open accross an <code class="code">exec</code>.
+</p>
+<p><code class="code">flags</code> can be an OR&rsquo;d field of the following elements:
+</p>
+<dl class="table">
+<dt><code class="code">O_RDONLY (0b000001)</code></dt>
+<dd><p>Makes the file able to be read.
+</p>
+</dd>
+<dt><code class="code">O_WRONLY (0b000010)</code></dt>
+<dd><p>Makes the file able to be written to.
+</p>
+</dd>
+<dt><code class="code">O_APPEND (0b000100)</code></dt>
+<dd><p>Makes the file be opened at the end of the file, instead of the beggining.
+</p>
+</dd>
+<dt><code class="code">O_CLOEXEC (0b001000)</code></dt>
+<dd><p>Will make the file close when <code class="code">exec</code>&rsquo;d.
+</p>
+</dd>
+<dt><code class="code">O_NOFOLLOW (0b0100000000)</code></dt>
+<dd><p>Do not follow symlinks when opening the file.
+</p>
+</dd>
+<dt><code class="code">O_NONBLOCK (0b1000000000)</code></dt>
+<dd><p>Make the file not block on read or write operations when possible.
+</p></dd>
+</dl>
+
+<p>The syscall returns the opened file descriptor or <code class="code">-1</code> on error, and errno
+is set to the following:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">ENOENT</code>: The referenced file does not exist.
+
+</li><li><code class="code">EINVAL</code>: Combination of <code class="code">flags</code> is not valid.
+
+</li><li><code class="code">EMFILE</code>: Too many files are already owned by the process.
+
+</li><li><code class="code">EFAULT</code>: The passed path is outside the available address space.
+</li></ul>
+
+</div>
+
+
+
+</body>
+</html>

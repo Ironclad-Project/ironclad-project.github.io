@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>failure_policy (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="failure_policy (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="failure_policy (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="create_005fthread.html" rel="next" title="create_thread">
+<link href="gettidid_002fsettidid.html" rel="prev" title="gettidid/settidid">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="failure_005fpolicy">
+<div class="nav-panel">
+<p>
+Next: <a href="create_005fthread.html" accesskey="n" rel="next">create_thread</a>, Previous: <a href="gettidid_002fsettidid.html" accesskey="p" rel="prev">gettidid/settidid</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="failure_005fpolicy-1"><span>9.88 failure_policy<a class="copiable-link" href="#failure_005fpolicy-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define OOM_ALLOW_PROC_KILL 1</span>
+
+<span style="color:#0057ae">struct</span> fail_modes <span style="color:#000000">{</span>
+    <span style="color:#0057ae">uint64_t</span> oom_policy<span style="color:#000000">;</span>
+<span style="color:#000000">};</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">failure_policy</span><span style="color:#000000">(</span><span style="color:#0057ae">struct</span> fail_modes <span style="color:#000000">*</span>old<span style="color:#000000">,</span> <span style="color:#0057ae">struct</span> fail_modes <span style="color:#000000">*</span><span style="color:#000000; font-weight:bold">new</span><span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall fetches and customized kernel behaviour on a series of failure
+conditions. <code class="code">old</code>, if not null, can be used for fetching the values
+used at the time of calling, while <code class="code">new</code>, if not <code class="code">null</code>, will be used
+to set new values.
+</p>
+<p>The valid values for <code class="code">oom_policy</code> are:
+</p>
+<dl class="table">
+<dt><code class="code">OOM_ALLOW_PROC_KILL</code></dt>
+<dd><p>When set, this value will make the kernel able to kill processes if deemed
+necessary for the prolonged function of the system, if not set, the kernel
+will not kill user processes at any cost.
+</p></dd>
+</dl>
+
+<p>This syscall returns 0 on success or <code class="code">-1</code> on failure, with the errno:
+</p>
+<dl class="table">
+<dt><code class="code">EFAULT</code></dt>
+<dd><p>The passed buffers were pointing to invalid memory.
+</p>
+</dd>
+<dt><code class="code">EACCES</code></dt>
+<dd><p>When setting new values with <code class="code">new</code>, the calling process did not have the
+capability <code class="code">MAC_CAP_SYSMAC</code>.
+</p></dd>
+</dl>
+
+</div>
+
+
+
+</body>
+</html>

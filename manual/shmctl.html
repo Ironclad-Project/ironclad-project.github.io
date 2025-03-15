@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>shmctl (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="shmctl (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="shmctl (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="shmdl.html" rel="next" title="shmdl">
+<link href="shmat.html" rel="prev" title="shmat">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="shmctl">
+<div class="nav-panel">
+<p>
+Next: <a href="shmdl.html" accesskey="n" rel="next">shmdl</a>, Previous: <a href="shmat.html" accesskey="p" rel="prev">shmat</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="shmctl-1"><span>9.83 shmctl<a class="copiable-link" href="#shmctl-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> ipc_perms <span style="color:#000000">{</span>
+   <span style="color:#0057ae">uint32_t</span> __key<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint32_t</span> uid<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint32_t</span> gid<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint32_t</span> cuid<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint32_t</span> cgid<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint32_t</span> mode<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint32_t</span> __seq<span style="color:#000000">;</span>
+<span style="color:#000000">}</span>
+
+<span style="color:#0057ae">struct</span> shmid_ds <span style="color:#000000">{</span>
+   <span style="color:#0057ae">struct</span> ipc_perms shm_perm<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint64_t</span> shm_segsz<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint64_t</span> shm_atime<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint64_t</span> shm_dtime<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint64_t</span> shm_ctime<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint32_t</span> shm_cpid<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint32_t</span> shm_lpid<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint64_t</span> shm_nattch<span style="color:#000000">;</span>
+<span style="color:#000000">}</span>
+
+<span style="color:#008200">#define IPC_RMID 0</span>
+<span style="color:#008200">#define IPC_SET  1</span>
+<span style="color:#008200">#define IPC_STAT 2</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">shmctl</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> shmid<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> cmd<span style="color:#000000">,</span> <span style="color:#0057ae">struct</span> shmid_ds <span style="color:#000000">*</span>buf<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall performs the control operation specified by <code class="code">cmd</code> on the
+shared memory segment whose identifier is given in <code class="code">shmid</code>.
+</p>
+<p><code class="code">cmd</code> can be one of:
+</p>
+<dl class="table">
+<dt><code class="code">IPC_RMID</code></dt>
+<dd><p>The passed <code class="code">shmid</code> is set to be deleted when the attached count of the
+segment goes to <code class="code">0</code>. Otherwise, it will linger forever. <code class="code">buf</code> is
+ignored.
+</p>
+</dd>
+<dt><code class="code">IPC_SET</code></dt>
+<dd><p>Information passed on the structure pointed to by <code class="code">buf</code> is used to modify
+the permission fields of the passed segment, namely <code class="code">shm_perm.uid</code>,
+<code class="code">shm_perm.gid</code>, and <code class="code">shm_perm.mode</code>.
+</p>
+</dd>
+<dt><code class="code">IPC_STAT</code></dt>
+<dd><p>Get the associated information of the passed segment id and write it to the
+structure pointed to by <code class="code">buf</code>.
+</p></dd>
+</dl>
+
+<p>The syscall returns <code class="code">0</code> on success or <code class="code">-1</code> on failure, with the
+following errno:
+</p>
+<dl class="table">
+<dt><code class="code">EINVAL</code></dt>
+<dd><p><code class="code">size</code> is less than needed and/or <code class="code">fd</code> is not a TTY.
+</p>
+</dd>
+<dt><code class="code">EBADF</code></dt>
+<dd><p><code class="code">fd</code> is not opened to anything.
+</p>
+</dd>
+<dt><code class="code">EFAULT</code></dt>
+<dd><p><code class="code">buffer</code> points to invalid memory.
+</p></dd>
+</dl>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="shmdl.html">shmdl</a>, Previous: <a href="shmat.html">shmat</a>, Up: <a href="Syscalls.html">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

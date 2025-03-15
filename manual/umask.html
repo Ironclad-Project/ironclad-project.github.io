@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>umask (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="umask (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="umask (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="reboot.html" rel="next" title="reboot">
+<link href="fchmod.html" rel="prev" title="fchmod">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="umask">
+<div class="nav-panel">
+<p>
+Next: <a href="reboot.html" accesskey="n" rel="next">reboot</a>, Previous: <a href="fchmod.html" accesskey="p" rel="prev">fchmod</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="umask-1"><span>9.57 umask<a class="copiable-link" href="#umask-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted">mode_t <span style="color:#010181">umask</span><span style="color:#000000">(</span>mode_t mask<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall sets the umask of the calling process to the passed mask AND&rsquo;d
+with <code class="code">777</code> in octal.
+</p>
+<p>The umask is used by the kernel when creating files in the name of the calling
+process. It marks permissions to be turned off from <code class="code">mode</code> arguments
+passed by the user. The default value is <code class="code">22</code> in octal, and is inherited
+from parent processes to children.
+</p>
+<p>This syscall never fails, it always returns the old mask before modification.
+</p>
+</div>
+
+
+
+</body>
+</html>

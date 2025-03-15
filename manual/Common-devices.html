@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Common devices (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="Common devices (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="Common devices (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Devices-and-their-properties.html" rel="up" title="Devices and their properties">
+<link href="riscv64_002dlimine-devices.html" rel="next" title="riscv64-limine devices">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Common-devices">
+<div class="nav-panel">
+<p>
+Next: <a href="riscv64_002dlimine-devices.html" accesskey="n" rel="next">riscv64-limine devices</a>, Up: <a href="Devices-and-their-properties.html" accesskey="u" rel="up">Devices and their properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Common-devices-1"><span>13.1 Common devices<a class="copiable-link" href="#Common-devices-1"> &para;</a></span></h3>
+
+<p>These are devices exposed in Ironclad regardless of target system when
+present, with standardized interfaces.
+</p>
+<ul class="mini-toc">
+<li><a href="#console" accesskey="1">console</a></li>
+<li><a href="#loopback" accesskey="2">loopback</a></li>
+<li><a href="#ramdev" accesskey="3">ramdev</a></li>
+<li><a href="#random_002furandom_002fhwrng" accesskey="4">random/urandom/hwrng</a></li>
+<li><a href="#null_002fzero" accesskey="5">null/zero</a></li>
+</ul>
+<div class="subsection-level-extent" id="console">
+<h4 class="subsection"><span>13.1.1 console<a class="copiable-link" href="#console"> &para;</a></span></h4>
+
+<p><code class="code">/dev/console</code> wraps architecture-specific debug output channels for use
+with file operations. For x86-based targets, this is COM1, for other targets,
+this may be UART.
+</p>
+<p>If the target implements reading from the debug channels, read will be
+supported as well. If not implemented, the device will be read-only.
+</p>
+<p>The kernel also uses the debug channels for output, so keep in mind the
+contentions that can cause. If you are doing a lot of spaced writes, do not
+be surprised if the kernel pops in the middle! In the other hand, the kernel
+does not read from the debug channels.
+</p>
+</div>
+<div class="subsection-level-extent" id="loopback">
+<h4 class="subsection"><span>13.1.2 loopback<a class="copiable-link" href="#loopback"> &para;</a></span></h4>
+
+<p><code class="code">/dev/loopback</code> is the network loopback device, explained on
+<a class="ref" href="Loopback.html">Loopback</a>.
+</p>
+</div>
+<div class="subsection-level-extent" id="ramdev">
+<h4 class="subsection"><span>13.1.3 ramdev<a class="copiable-link" href="#ramdev"> &para;</a></span></h4>
+
+<p>The devices starting by <code class="code">ramdev</code> are virtual devices representing the
+RAM driver passed by some boot protocols, an FS can be mounted to them, or be
+otherwise used like any other block device. These RAM devices are read/write,
+but they cannot grow in size, so changes are constrained to the area the
+RAM device already has allocated.
+</p>
+</div>
+<div class="subsection-level-extent" id="random_002furandom_002fhwrng">
+<h4 class="subsection"><span>13.1.4 random/urandom/hwrng<a class="copiable-link" href="#random_002furandom_002fhwrng"> &para;</a></span></h4>
+
+<p>The device <code class="code">random</code> is equivalent to the one featured in other UNIX-like
+kernels, and can be read to get a stream of cryptographically secure
+pseudo-random bytes.
+</p>
+<p>Ironclad has limited sources of entropy, so the quality of this random numbers
+may be limited as well. To mitigate this, one may write to the <code class="code">random</code>
+device. The written data will be used as additional entropy.
+</p>
+<p><code class="code">/dev/urandom</code> does the same as <code class="code">/dev/random</code>, and is only provided
+for compatibility.
+</p>
+<p><code class="code">getrandom</code> is provided as well for avoiding the file interface when
+interfacing with <code class="code">/dev/random</code>, as that may avoid certain kinds of DoS
+attacks related to opened file limits.
+</p>
+<p>When present, CPU random number generators may be exposed as <code class="code">/dev/hwrng</code>.
+This device behaves the same as <code class="code">/dev/random</code> apart from the fact that
+it does not allow writing to it. It is recommended that, unless necessary, you
+use <code class="code">/dev/random</code> instead. If you are to use <code class="code">hwrng</code>, be sure you
+trust your hardware to not be backdoored, else, those backdoors might be
+rendered useless by the kernel&rsquo;s own CSPRNG processing.
+</p>
+</div>
+<div class="subsection-level-extent" id="null_002fzero">
+<h4 class="subsection"><span>13.1.5 null/zero<a class="copiable-link" href="#null_002fzero"> &para;</a></span></h4>
+
+<p><code class="code">null</code> returns <code class="code">EOF</code> whenever read, and all the write operations are
+discarded.
+</p>
+<p><code class="code">zero</code> returns exclusively a stream of zeros when read, and all write
+operations are discarded.
+</p>
+</div>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="riscv64_002dlimine-devices.html">riscv64-limine devices</a>, Up: <a href="Devices-and-their-properties.html">Devices and their properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

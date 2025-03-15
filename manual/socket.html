@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>socket (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="socket (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="socket (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="sethostname.html" rel="next" title="sethostname">
+<link href="wait.html" rel="prev" title="wait">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="socket">
+<div class="nav-panel">
+<p>
+Next: <a href="sethostname.html" accesskey="n" rel="next">sethostname</a>, Previous: <a href="wait.html" accesskey="p" rel="prev">wait</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="socket-1"><span>9.14 socket<a class="copiable-link" href="#socket-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define AF_INET   1</span>
+<span style="color:#008200">#define AF_INET6  2</span>
+<span style="color:#008200">#define AF_UNIX   3</span>
+
+<span style="color:#008200">#define SOCK_DGRAM     0b000000000000000001</span>
+<span style="color:#008200">#define SOCK_RAW       0b000000000000000010</span>
+<span style="color:#008200">#define SOCK_STREAM    0b000000000000000100</span>
+<span style="color:#008200">#define SOCK_SEQPACKET 0b000000000000001000</span>
+<span style="color:#008200">#define SOCK_NONBLOCK  0b001000000000000000</span>
+<span style="color:#008200">#define SOCK_CLOEXEC   0b010000000000000000</span>
+<span style="color:#008200">#define SOCK_CLOFORK   0b100000000000000000</span>
+<span style="color:#0057ae">int</span> <span style="color:#010181">socket</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> domain<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> type<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall for creating sockets, the passed fields can be used for selecting
+the type of socket to create. The available sockets type are:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">AF_INET</code>: Basically IPv4 socket.
+
+<p>The address of a INET domain socket takes the shape of
+</p>
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> sockaddr_in <span style="color:#000000">{</span>
+   <span style="color:#0057ae">uint32_t</span> sin_family<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint16_t</span> sin_port<span style="color:#000000">;</span>
+   <span style="color:#0057ae">char</span>     sin_addr<span style="color:#000000">[</span><span style="color:#b07e00">4</span><span style="color:#000000">];</span>
+   <span style="color:#0057ae">uint8_t</span>  pad<span style="color:#000000">[</span><span style="color:#b07e00">8</span><span style="color:#000000">];</span>
+<span style="color:#000000">};</span>
+</pre></div>
+
+<p><code class="code">type</code> can be one of <code class="code">SOCK_DGRAM</code> or <code class="code">SOCK_STREAM</code>.
+<code class="code">SOCK_DGRAM</code> will be translated to <code class="code">TCP</code>, while <code class="code">SOCK_STREAM</code>
+will be translated to <code class="code">UDP</code>.
+</p>
+</li><li><code class="code">AF_INET6</code>: Basically IPv6 socket.
+
+<p>The address of a INET domain socket takes the shape of
+</p>
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> sockaddr_in6 <span style="color:#000000">{</span>
+   <span style="color:#0057ae">uint32_t</span> sin6_family<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint16_t</span> sin6_port<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint32_t</span> sin6_flowinfo<span style="color:#000000">;</span>
+   <span style="color:#0057ae">char</span>     sin6_addr<span style="color:#000000">[</span><span style="color:#b07e00">16</span><span style="color:#000000">];</span>
+   <span style="color:#0057ae">uint32_t</span> sin6_scope_id<span style="color:#000000">;</span>
+<span style="color:#000000">};</span>
+</pre></div>
+
+<p><code class="code">type</code> can be one of <code class="code">SOCK_DGRAM</code> or <code class="code">SOCK_STREAM</code>.
+<code class="code">SOCK_DGRAM</code> will be translated to <code class="code">TCP</code>, while <code class="code">SOCK_STREAM</code>
+will be translated to <code class="code">UDP</code>.
+</p>
+</li><li><code class="code">AF_UNIX</code>: UNIX domain socket for local communication, this sockets
+can be unnamed or bound to filesystem paths.
+
+<p>The address of a UNIX domain socket takes the shape of
+</p>
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> sockaddr_un <span style="color:#000000">{</span>
+   <span style="color:#0057ae">uint32_t</span> sun_family<span style="color:#000000">;</span> <span style="color:#838183; font-style:italic">// AF_UNIX.</span>
+   <span style="color:#0057ae">char</span> path<span style="color:#000000">[];</span>         <span style="color:#838183; font-style:italic">// Must be null terminated.</span>
+<span style="color:#000000">};</span>
+</pre></div>
+</li></ul>
+
+<p><code class="code">type</code> can be one of:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">SOCK_DGRAM</code>: Unreliable, connection-less, datagram-based interface. When
+used with INET protocols, it will correspond to UDP. When connected, these
+sockets will just cache the address for further reception / sending.
+</li><li><code class="code">SOCK_STREAM</code>: Reliable, connection-based stream-based interface.
+Connection, accepting, and listening will be necessary for a proper handshake.
+</li><li><code class="code">SOCK_RAW</code>: Raw communication directly with the domain layer. When using
+these, no TCP or UDP will be done whatsoever, and the user will be free to
+implement their own protocol on top, or none at all and just use the domain
+datagram transport. Not supported for some protocols, like UNIX domain sockets.
+</li><li><code class="code">SOCK_SEQPACKET</code>: Sequenced-packet socket that is connection-oriented,
+preserves message boundaries, and delivers messages in the order that they were
+sent.
+</li></ul>
+
+<p>Any socket type may have <code class="code">type</code> be OR&rsquo;ed with <code class="code">SOCK_NONBLOCK</code> or
+<code class="code">SOCK_CLOEXEC</code> for setting the created socket nonblock or cloese on exec
+respectively.
+</p>
+<p>The syscall returns the resulting FD or <code class="code">-1</code> on failure, with the
+following errno:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EINVAL</code>: Invalid combination of flags.
+</li><li><code class="code">EMFILE</code>: No available file descriptor slots.
+</li></ul>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="sethostname.html">sethostname</a>, Previous: <a href="wait.html">wait</a>, Up: <a href="Syscalls.html">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

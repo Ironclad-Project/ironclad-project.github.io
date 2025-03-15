@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Devices and their properties (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="Devices and their properties (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="Devices and their properties (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html" rel="up" title="Top">
+<link href="GNU-Free-Documentation-License.html" rel="next" title="GNU Free Documentation License">
+<link href="Virtualization.html" rel="prev" title="Virtualization">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="chapter-level-extent" id="Devices-and-their-properties">
+<div class="nav-panel">
+<p>
+Next: <a href="GNU-Free-Documentation-License.html" accesskey="n" rel="next">GNU Free Documentation License</a>, Previous: <a href="Virtualization.html" accesskey="p" rel="prev">Virtualization</a>, Up: <a href="index.html" accesskey="u" rel="up">Ironclad User&rsquo;s Guide</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h2 class="chapter" id="Devices-and-their-properties-1"><span>13 Devices and their properties<a class="copiable-link" href="#Devices-and-their-properties-1"> &para;</a></span></h2>
+
+<p>Ironclad exposes a number of physical and virtual devices to userland. All
+of them are exposed under the <code class="code">/dev</code> location, and support a series of
+standard operations, like being manipulated by the usual file-related
+syscalls like <code class="code">read</code> or <code class="code">write</code>, while sporting device-specific
+interfaces in the form of device-specific <code class="code">ioctl</code> requests.
+</p>
+<p>When quering device-specific information, Ironclad exposes information a bit
+different than other kernels like Linux. Here is a quick list of the most
+notable differences:
+</p>
+<ul class="itemize mark-bullet">
+<li>The <code class="code">BLKGETSIZE</code>/<code class="code">BLKGETSIZE64</code> <code class="code">ioctl</code> calls are not available,
+instead, the block count and block size values of <code class="code">stat</code> are used.
+</li></ul>
+
+<p>All devices in Ironclad have the <code class="code">ioctl</code> call <code class="code">DEV_UUID</code> implemented,
+with the signature:
+</p>
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define DEV_UUID 0x9821</span>
+
+<span style="color:#010181">ioctl</span><span style="color:#000000">(</span>fd<span style="color:#000000">,</span> DEV_UUID<span style="color:#000000">, &amp;</span>pointer_to_uuid<span style="color:#000000">); --</span> uuids being <span style="color:#0057ae">uint8_t</span><span style="color:#000000">[</span><span style="color:#b07e00">16</span><span style="color:#000000">];</span>
+</pre></div>
+
+<p>This call will write the UUID of the device pointed to by <code class="code">fd</code>, which, if
+all zeros, will mean that the device has no associated UUID.
+</p>
+<ul class="mini-toc">
+<li><a href="Common-devices.html" accesskey="1">Common devices</a></li>
+<li><a href="riscv64_002dlimine-devices.html" accesskey="2">riscv64-limine devices</a></li>
+<li><a href="x86_005f64_002dlimine-devices.html" accesskey="3">x86_64-limine devices</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

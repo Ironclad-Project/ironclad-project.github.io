@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Thread clustering management (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="Thread clustering management (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="Thread clustering management (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Scheduling-and-RTC.html" rel="up" title="Scheduling and RTC">
+<link href="Scheduling-basics.html" rel="prev" title="Scheduling basics">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Thread-clustering-management">
+<div class="nav-panel">
+<p>
+Previous: <a href="Scheduling-basics.html" accesskey="p" rel="prev">Scheduling basics</a>, Up: <a href="Scheduling-and-RTC.html" accesskey="u" rel="up">Scheduling and RTC</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Thread-clustering-management-1"><span>3.3 Thread clustering management<a class="copiable-link" href="#Thread-clustering-management-1"> &para;</a></span></h3>
+
+<p>Thread clusters are identified by an integer id, not unlike threads or PIDs.
+Clusters rule over a group of threads, regardless of their process of origin,
+and allow specifiying an algorithm and a percentage over all the CPU time.
+</p>
+<p>The algorithm of a cluster affects how threads inside the cluster are
+scheduled. The available algorithms are:
+</p>
+<dl class="table">
+<dt><code class="code">SCHED_RR</code></dt>
+<dd><p>A prioritized round robin. One can specify a quantum to use when
+switching threads, while one can specify a priority using standard POSIX
+niceness. <a class="ref" href="getprio_002fsetprio.html">getprio/setprio</a>.
+</p>
+<p>Priorities affect inter-thread quantum following the formula:
+</p>
+<div class="example">
+<pre class="example-preformatted">timeout = quantum - ((quantum / 40) * niceness);
+</pre></div>
+
+</dd>
+<dt><code class="code">SCHED_COOP</code></dt>
+<dd><p>Cooperative scheduling, the scheduler will not attempt to preempt unless
+explicitly requested by exiting or yielding.
+</p></dd>
+</dl>
+
+<p>Additionally, by using the <code class="code">SCHED_INTR</code> flag, a cluster can be configured
+to be interruptible, which makes the kernel able to interrupt a thread and
+queue another during long waits, in order to increase performance and
+responsiveness. This does not affect cluster-wide scheduling guarantees.
+</p>
+<p>At startup, Ironclad will have a single interruptible cluster assigned to 100%
+of execution time, configured to use a flat RR with a 20ms quantum with
+cluster number <code class="code">1</code>. Software is free to modify it however it sees fit, it
+is just provided in order to have some natural-ish behaviour for running
+software blissfully unaware of the clusters beneath.
+</p>
+<p>Syscalls used for modifying clusters and their settings are
+<code class="code">manage_tcluster</code> and <code class="code">delete_tcluster</code>, <code class="code">create_tcluster</code>, and
+<code class="code">switch_tcluster</code>.
+</p>
+</div>
+
+
+
+</body>
+</html>

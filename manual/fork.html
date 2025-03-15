@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>fork (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="fork (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="fork (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="wait.html" rel="next" title="wait">
+<link href="exec.html" rel="prev" title="exec">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="fork">
+<div class="nav-panel">
+<p>
+Next: <a href="wait.html" accesskey="n" rel="next">wait</a>, Previous: <a href="exec.html" accesskey="p" rel="prev">exec</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="fork-1"><span>9.12 fork<a class="copiable-link" href="#fork-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted">pid_t <span style="color:#010181">fork</span><span style="color:#000000">();</span>
+</pre></div>
+
+<p>This syscall creates a new process based on the parent process. The created
+process will only have 1 thread copying the caller one, and will be placed
+on the 1st thread cluster.
+</p>
+<p>This syscall returns <code class="code">0</code> on success for the child, and the new child PID
+to the parent, in failure, the parent gets <code class="code">-1</code> with the following errno:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EAGAIN</code>: The system could not create the entity right now, try again
+later.
+
+</li><li><code class="code">EACCES</code>: MAC disallowed this.
+</li></ul>
+
+</div>
+
+
+
+</body>
+</html>

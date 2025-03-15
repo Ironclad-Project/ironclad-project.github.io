@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>getgid/getegid (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="getgid/getegid (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="getgid/getegid (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="setgids.html" rel="next" title="setgids">
+<link href="getprio_002fsetprio.html" rel="prev" title="getprio/setprio">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="getgid_002fgetegid">
+<div class="nav-panel">
+<p>
+Next: <a href="setgids.html" accesskey="n" rel="next">setgids</a>, Previous: <a href="getprio_002fsetprio.html" accesskey="p" rel="prev">getprio/setprio</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="getgid_002fgetegid-1"><span>9.77 getgid/getegid<a class="copiable-link" href="#getgid_002fgetegid-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted">gid_t <span style="color:#010181">getgid</span><span style="color:#000000">(</span><span style="color:#0057ae">void</span><span style="color:#000000">);</span>
+gid_t <span style="color:#010181">getegid</span><span style="color:#000000">(</span><span style="color:#0057ae">void</span><span style="color:#000000">);</span>
+</pre></div>
+
+<p>These syscalls fetch the GID and the effective GID of the calling process. They
+never fail.
+</p>
+</div>
+
+
+
+</body>
+</html>

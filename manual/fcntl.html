@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>fcntl (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="fcntl (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="fcntl (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="exit_005fthread.html" rel="next" title="exit_thread">
+<link href="manage_005ftcluster.html" rel="prev" title="manage_tcluster">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="fcntl">
+<div class="nav-panel">
+<p>
+Next: <a href="exit_005fthread.html" accesskey="n" rel="next">exit_thread</a>, Previous: <a href="manage_005ftcluster.html" accesskey="p" rel="prev">manage_tcluster</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="fcntl-1"><span>9.29 fcntl<a class="copiable-link" href="#fcntl-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define F_DUPFD         1</span>
+<span style="color:#008200">#define F_DUPFD_CLOEXEC 2</span>
+<span style="color:#008200">#define F_GETFD         3</span>
+<span style="color:#008200">#define F_SETFD         4</span>
+<span style="color:#008200">#define F_GETFL         5</span>
+<span style="color:#008200">#define F_SETFL         6</span>
+<span style="color:#008200">#define F_GETPIPE_SZ    7</span>
+<span style="color:#008200">#define F_SETPIPE_SZ    8</span>
+<span style="color:#008200">#define F_GETLK         9</span>
+<span style="color:#008200">#define F_SETLK         10</span>
+<span style="color:#008200">#define F_SETLKW        11</span>
+
+<span style="color:#008200">#define FD_CLOEXEC      0b01</span>
+<span style="color:#008200">#define FD_CLOFORK      0b10</span>
+
+<span style="color:#008200">#define F_RDLCK 1</span>
+<span style="color:#008200">#define F_UNLCK 2</span>
+<span style="color:#008200">#define F_WRLCK 3</span>
+
+<span style="color:#0057ae">struct</span> flock <span style="color:#000000">{</span>
+   <span style="color:#0057ae">uint16_t</span> l_type<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint16_t</span> l_whence<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint64_t</span> l_start<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint64_t</span> l_len<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint32_t</span> l_pid<span style="color:#000000">;</span>
+<span style="color:#000000">}</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">fcntl</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> fd<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> cmd<span style="color:#000000">,</span> <span style="color:#0057ae">void</span> <span style="color:#000000">*</span>arg<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall is a multiplexed syscall that performs the operations described
+below on the open file descriptor <code class="code">fd</code>. The operation is determined by
+<code class="code">cmd</code> and may take an optional argument <code class="code">arg</code>.
+</p>
+<p>The syscall&rsquo;s return value will depend on the requested <code class="code">cmd</code>, and is
+detailed along the operations below.
+</p>
+<p>The valid operations are:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">F_DUPFD</code>: Clones <code class="code">fd</code> into a the first available file descriptor
+starting by <code class="code">arg</code>. Returns the resulting FD.
+
+</li><li><code class="code">F_DUPFD_CLOEXEC</code>: The same as <code class="code">F_DUPFD</code> but sets the close on exec
+flag for the cloned FD if succesful, in order to save a subsequent call.
+
+</li><li><code class="code">F_GETFD</code>: The flags used for <code class="code">fd</code> will be returned. These can be
+<code class="code">FD_CLOEXEC</code>, which if set, will signal that <code class="code">fd</code> will be closed
+should an <code class="code">exec</code> call or similar happen, and <code class="code">FD_CLOFORK</code>, which
+signals that <code class="code">fd</code> will not be cloned when calling <code class="code">clone</code> or similar.
+
+</li><li><code class="code">F_SETFD</code>: The flags for <code class="code">fd</code> will be set with <code class="code">arg</code> using
+the same values returned by <code class="code">F_GETFD</code>. The syscall will return <code class="code">0</code>
+on sucess.
+
+</li><li><code class="code">F_GETFL</code>: Returns as the function result the file access mode
+and status flags.
+
+</li><li><code class="code">F_SETFL</code>: What <code class="code">F_SETFD</code> is to <code class="code">F_GETFD</code> for
+<code class="code">F_GETFL</code>.
+
+</li><li><code class="code">F_GETPIPE_SZ</code>: If <code class="code">fd</code> points to a FIFO or pipe, return
+its size.
+
+</li><li><code class="code">F_SETPIPE_SZ</code>: If <code class="code">fd</code> points to a FIFO or pipe, the size will
+be set to the value of <code class="code">arg</code>. If the operation would cause data loss, it
+will fail.
+
+</li><li><code class="code">F_GETLK</code>: If <code class="code">fd</code> points to a filesystem inode, the data passed
+in <code class="code">arg</code> will be taken as a pointer to a <code class="code">flock</code> struct, and the
+possibility to add the advisory lock described there will be checked.
+
+<p>POSIX advisory locks are advisory file description-bound marks that may be
+used as a filesystem semaphore. They require processes to check them, and are
+not automatic nor mandatory, thus, advisory.
+</p>
+<p>If the lock could be placed, the passed struct&rsquo;s <code class="code">l_type</code> will become
+<code class="code">F_UNLCK</code>, else, the call will fail and the fields used to write the
+information regarding one of the conflicting locks. As all IPC, this data may
+not be true once processed, it is merely informative.
+</p>
+<p>POSIX advisory locks can be used for implementing PID lock files, as to
+make sure only one instance of the same daemon is running.
+</p>
+</li><li><code class="code">F_SETLK</code>: The same as <code class="code">F_GETLK</code>, but actually sets the passed lock.
+If it cannot be set, it will return failure with <code class="code">EAGAIN</code>.
+
+</li><li><code class="code">F_SETLKW</code>: The same as <code class="code">F_SETLK</code>, but instead of being non-blocking,
+this call will block until the passed lock can be set.
+</li></ul>
+
+<p>On failure, the syscall returns <code class="code">-1</code>. The returned <code class="code">errno</code> are:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EINVAL</code>: The passed <code class="code">cmd</code> is not implemented by the kernel.
+
+</li><li><code class="code">EBADF</code>: The passed <code class="code">fd</code> is not open.
+</li></ul>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="exit_005fthread.html">exit_thread</a>, Previous: <a href="manage_005ftcluster.html">manage_tcluster</a>, Up: <a href="Syscalls.html">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

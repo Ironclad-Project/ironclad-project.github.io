@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>EXTended filesystem (EXT) (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="EXTended filesystem (EXT) (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="EXTended filesystem (EXT) (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Filesystem-support-and-interfaces.html" rel="up" title="Filesystem support and interfaces">
+<link href="File-Allocation-Table-_0028FAT_0029.html" rel="next" title="File Allocation Table (FAT)">
+<link href="Generic-filesystem-options.html" rel="prev" title="Generic filesystem options">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="EXTended-filesystem-_0028EXT_0029">
+<div class="nav-panel">
+<p>
+Next: <a href="File-Allocation-Table-_0028FAT_0029.html" accesskey="n" rel="next">File Allocation Table (FAT)</a>, Previous: <a href="Generic-filesystem-options.html" accesskey="p" rel="prev">Generic filesystem options</a>, Up: <a href="Filesystem-support-and-interfaces.html" accesskey="u" rel="up">Filesystem support and interfaces</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="EXTended-filesystem-_0028EXT_0029-1"><span>10.2 EXTended filesystem (EXT)<a class="copiable-link" href="#EXTended-filesystem-_0028EXT_0029-1"> &para;</a></span></h3>
+
+<p>Ironclad supports EXT-series filesystems read-only and read-write.
+</p>
+<p>While a user may be used to the ext2/3/4 distinction, EXT internally works as
+an independent set of features, with the version numbers specifying a
+widely understood, assumed, and inconsistent set of features.
+</p>
+<p>Ironclad supports the feature list: <code class="code">sparse_super</code>, <code class="code">large_file</code>,
+<code class="code">filetype</code>, <code class="code">resize_inode</code>, <code class="code">dir_index</code>, <code class="code">ext_attr</code>.
+</p>
+<p>Those features should translate to ext2 read-write support, and ext3 read-only
+support.
+</p>
+<p>Some <code class="code">ioctl</code> calls exist for files inside EXT-series FSs, which can help
+manage specialized FS-specific inode flags and permissions, they are:
+</p>
+<div class="example user-c">
+<pre class="example-preformatted">EXT_GETFLAGS <span style="color:#000000">=</span> <span style="color:#b07e00">0x5600</span>
+EXT_SETFLAGS <span style="color:#000000">=</span> <span style="color:#b07e00">0x5601</span>
+
+<span style="color:#010181">ioctl</span><span style="color:#000000">(</span>fd<span style="color:#000000">,</span> EXT_GETFLAGS<span style="color:#000000">,</span> pointer_to_u32<span style="color:#000000">);</span> <span style="color:#838183; font-style:italic">// Get EXT&#39;s flags inode field.</span>
+<span style="color:#010181">ioctl</span><span style="color:#000000">(</span>fd<span style="color:#000000">,</span> EXT_SETFLAGS<span style="color:#000000">,</span> pointer_to_u32<span style="color:#000000">);</span> <span style="color:#838183; font-style:italic">// Set EXT&#39;s flags inode field.</span>
+</pre></div>
+
+<ul class="mini-toc">
+<li><a href="#Ironclad-support-quirks" accesskey="1">Ironclad support quirks</a></li>
+</ul>
+<div class="subsection-level-extent" id="Ironclad-support-quirks">
+<h4 class="subsection"><span>10.2.1 Ironclad support quirks<a class="copiable-link" href="#Ironclad-support-quirks"> &para;</a></span></h4>
+
+<p>EXT features a error policy on EXT internal errors that dictates for the kernel
+to panic when triggered. While other operating systems honor the policy as-is,
+Ironclad deliverately acts on it was a &quot;Remount read only&quot; policy. This is done
+to avoid denial of service attacks by mounting deliverately faulty flesystems.
+</p>
+</div>
+</div>
+
+
+
+</body>
+</html>

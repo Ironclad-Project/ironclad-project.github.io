@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Resource limits (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="Resource limits (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="Resource limits (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Security-and-integrity-facilities.html" rel="up" title="Security and integrity facilities">
+<link href="Miscellaneous-measures.html" rel="next" title="Miscellaneous measures">
+<link href="Mandatory-access-control-_0028MAC_0029.html" rel="prev" title="Mandatory access control (MAC)">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Resource-limits">
+<div class="nav-panel">
+<p>
+Next: <a href="Miscellaneous-measures.html" accesskey="n" rel="next">Miscellaneous measures</a>, Previous: <a href="Mandatory-access-control-_0028MAC_0029.html" accesskey="p" rel="prev">Mandatory access control (MAC)</a>, Up: <a href="Security-and-integrity-facilities.html" accesskey="u" rel="up">Security and integrity facilities</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Resource-limits-1"><span>7.3 Resource limits<a class="copiable-link" href="#Resource-limits-1"> &para;</a></span></h3>
+
+<p>As part of the UNIX-like package, Ironclad supports various resource limits
+that, in the case of Ironclad, are built inside MAC, and are passed down like
+MAC capabilities (see <a class="pxref" href="Mandatory-access-control-_0028MAC_0029.html">Mandatory access control (MAC)</a>).
+See <a class="xref" href="getrlimit_002fsetrlimit.html">getrlimit/setrlimit</a>.
+</p>
+<p>Limits mostly act as you would expect them to behave, and they are all
+initialized to the maximum possible value, there are only 2 quirks: For one,
+limits are only deescalatory (like MAC), you can only go down, never up, and,
+since Ironclad does not support dynamically growing stacks, the initial size is
+dictated (for the stacks created by the kernel) with <code class="code">RLIMIT_STACK</code>. Thus,
+Ironclad does not start that limit with the maximum value, but a smaller valid
+size.
+</p>
+<p>A short description of the available limits and their default values is:
+</p>
+<dl class="table">
+<dt><code class="code">RLIMIT_CORE</code></dt>
+<dd><p>Size of corefile dumps, by default 0 (disabling it).
+</p>
+</dd>
+<dt><code class="code">RLIMIT_CPU</code></dt>
+<dd><p>Limit of CPU time a process can consume in seconds, by default -1 (max value).
+</p>
+</dd>
+<dt><code class="code">RLIMIT_FSIZE</code></dt>
+<dd><p>Limit of individual file size a process can write, by default -1 (max value).
+</p>
+</dd>
+<dt><code class="code">RLIMIT_NOFILE</code></dt>
+<dd><p>Limit of files a process can open on top of other system limits, by default
+-1 (max value).
+</p>
+</dd>
+<dt><code class="code">RLIMIT_STACK</code></dt>
+<dd><p>Limit of stack size for a process, by default 4 MiB.
+</p>
+</dd>
+<dt><code class="code">RLIMIT_AS</code></dt>
+<dd><p>Limit of maximum address size space used by a process, by default
+-1 (max value).
+</p></dd>
+</dl>
+
+</div>
+
+
+
+</body>
+</html>

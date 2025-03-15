@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>spawn (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="spawn (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="spawn (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="gettid.html" rel="next" title="gettid">
+<link href="sysconf.html" rel="prev" title="sysconf">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="spawn">
+<div class="nav-panel">
+<p>
+Next: <a href="gettid.html" accesskey="n" rel="next">gettid</a>, Previous: <a href="sysconf.html" accesskey="p" rel="prev">sysconf</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="spawn-1"><span>9.26 spawn<a class="copiable-link" href="#spawn-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted">pid_t <span style="color:#010181">spawn</span><span style="color:#000000">(</span><span style="color:#0057ae">const char</span> <span style="color:#000000">*</span>path<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> path_len<span style="color:#000000">,</span> <span style="color:#0057ae">char</span> <span style="color:#000000">*</span><span style="color:#0057ae">const</span> argv<span style="color:#000000">[],</span>
+   <span style="color:#0057ae">int</span> argv_len<span style="color:#000000">,</span> <span style="color:#0057ae">char</span> <span style="color:#000000">*</span><span style="color:#0057ae">const</span> envp<span style="color:#000000">[],</span> <span style="color:#0057ae">int</span> envp_len<span style="color:#000000">,</span> <span style="color:#0057ae">uint64_t</span> <span style="color:#000000">*</span>caps<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall spawns a child process in a way similar to what a
+<code class="code">clone</code>+<code class="code">exec</code> could be used for, but more efficiently, given it
+doesn&rsquo;t need to copy the address space just to overwrite it.
+</p>
+<p>File descriptors are copied and treated the same way a <code class="code">fork</code> followed
+by an <code class="code">exec</code> call would. That is, <code class="code">FD_CLOEXEC</code> FDs are closed, and
+<code class="code">FD_CLOFORK</code> FDs are not carried over.
+</p>
+<p>The argument <code class="code">caps</code>, if not <code class="code">NULL</code>, points to a capability set in
+the same format as <a class="ref" href="mac_005fcapabilities.html">mac_capabilities</a>. This can be useful for deescalating
+capabilities in the same convenient way as a call to <code class="code">mac_capabilities</code> in
+between <code class="code">clone</code> and <code class="code">exec</code> could.
+</p>
+<p>The syscall returns the created PID on success and <code class="code">0</code> on failure, with
+the errno codes being:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EAGAIN</code>: The system could not create the process right now.
+
+</li><li><code class="code">EFAULT</code>: One or more of the passed arguments point to invalid memory.
+
+</li><li><code class="code">EACCES</code>: MAC disallowed this.
+</li></ul>
+
+</div>
+
+
+
+</body>
+</html>

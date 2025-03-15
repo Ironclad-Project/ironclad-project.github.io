@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Kernel Address SANitizer (KASAN) (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="Kernel Address SANitizer (KASAN) (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="Kernel Address SANitizer (KASAN) (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Debugging-facilities.html" rel="up" title="Debugging facilities">
+<link href="Program-tracing.html" rel="prev" title="Program tracing">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Kernel-Address-SANitizer-_0028KASAN_0029">
+<div class="nav-panel">
+<p>
+Previous: <a href="Program-tracing.html" accesskey="p" rel="prev">Program tracing</a>, Up: <a href="Debugging-facilities.html" accesskey="u" rel="up">Debugging facilities</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Kernel-Address-SANitizer-_0028KASAN_0029-1"><span>8.3 Kernel Address SANitizer (KASAN)<a class="copiable-link" href="#Kernel-Address-SANitizer-_0028KASAN_0029-1"> &para;</a></span></h3>
+
+<p>Ironclad supports KASAN, which is useful for debugging memory use by the
+kernel. KASAN can be configured to be used by being built with
+<code class="code">--enable-kasan</code>. KASAN comes with a big performance penalty, so only use
+it for debugging.
+</p>
+<p>KASAN errors will be printed to the architectural debug output and will
+not result in kernel panics.
+</p>
+</div>
+
+
+
+</body>
+</html>

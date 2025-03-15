@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Table and target quirks (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="Table and target quirks (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="Table and target quirks (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="Errno.html" rel="next" title="Errno">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Table-and-target-quirks">
+<div class="nav-panel">
+<p>
+Next: <a href="Errno.html" accesskey="n" rel="next">Errno</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Table-and-target-quirks-1"><span>9.1 Table and target quirks<a class="copiable-link" href="#Table-and-target-quirks-1"> &para;</a></span></h3>
+
+<p>Syscalls in Ironclad have an architecture-dependent ABI, but the table and its
+indexes are always the same, this is done to simplify development. and here is a list of the
+supported architectures and the ABI for each of them. Here is the table:
+</p>
+<ol class="enumerate" start="0">
+<li> <a class="ref" href="exit.html">exit</a>.
+</li><li> <a class="ref" href="arch_005fprctl.html">arch_prctl</a>.
+</li><li> <a class="ref" href="open.html">open</a>.
+</li><li> <a class="ref" href="close.html">close</a>.
+</li><li> <a class="ref" href="read_002fwrite.html">read</a>.
+</li><li> <a class="ref" href="read_002fwrite.html">write</a>.
+</li><li> <a class="ref" href="seek.html">seek</a>.
+</li><li> <a class="ref" href="mmap_002fmprotect_002fmunmap.html">mmap</a>.
+</li><li> <a class="ref" href="mmap_002fmprotect_002fmunmap.html">munmap</a>.
+</li><li> <a class="ref" href="getpid_002fgetppid.html">getpid</a>.
+</li><li> <a class="ref" href="getpid_002fgetppid.html">getppid</a>.
+</li><li> <a class="ref" href="exec.html">exec</a>.
+</li><li> <a class="ref" href="fork.html">fork</a>.
+</li><li> <a class="ref" href="wait.html">wait</a>.
+</li><li> <a class="ref" href="socket.html">socket</a>.
+</li><li> <a class="ref" href="sethostname.html">sethostname</a>.
+</li><li> <a class="ref" href="unlink.html">unlink</a>.
+</li><li> <a class="ref" href="fstat.html">fstat</a>.
+</li><li> <a class="ref" href="pivot_005froot.html">pivot_root</a>.
+</li><li> <a class="ref" href="chdir.html">chdir</a>.
+</li><li> <a class="ref" href="ioctl.html">ioctl</a>.
+</li><li> <a class="ref" href="sched_005fyield.html">sched_yield</a>.
+</li><li> <a class="ref" href="delete_005ftcluster.html">delete_tcluster</a>.
+</li><li> <a class="ref" href="pipe.html">pipe</a>.
+</li><li> <a class="ref" href="getuid_002fgeteuid.html">getuid</a>.
+</li><li> <a class="ref" href="rename.html">rename</a>.
+</li><li> <a class="ref" href="sysconf.html">sysconf</a>.
+</li><li> <a class="ref" href="spawn.html">spawn</a>.
+</li><li> <a class="ref" href="gettid.html">gettid</a>.
+</li><li> <a class="ref" href="manage_005ftcluster.html">manage_tcluster</a>.
+</li><li> <a class="ref" href="fcntl.html">fcntl</a>.
+</li><li> <a class="ref" href="exit_005fthread.html">exit_thread</a>.
+</li><li> <a class="ref" href="getrandom.html">getrandom</a>.
+</li><li> <a class="ref" href="mmap_002fmprotect_002fmunmap.html">mprotect</a>.
+</li><li> <a class="ref" href="sync.html">sync</a>.
+</li><li> <a class="ref" href="mac_005fcapabilities.html">set_mac_capabilities</a>.
+</li><li> <a class="ref" href="mac_005fcapabilities.html">get_mac_capabilities</a>.
+</li><li> <a class="ref" href="add_005fmac_005fpermissions.html">add_mac_permissions</a>.
+</li><li> <a class="ref" href="set_005fmac_005fenforcement.html">set_mac_enforcement</a>.
+</li><li> <a class="ref" href="mount_002fumount.html">mount</a>.
+</li><li> <a class="ref" href="mount_002fumount.html">umount</a>.
+</li><li> <a class="ref" href="readlink.html">readlink</a>.
+</li><li> <a class="ref" href="getdents.html">getdents</a>.
+</li><li> <a class="ref" href="mknod.html">mknod</a>.
+</li><li> <a class="ref" href="truncate.html">truncate</a>.
+</li><li> <a class="ref" href="bind.html">bind</a>.
+</li><li> <a class="ref" href="symlink.html">symlink</a>.
+</li><li> <a class="ref" href="connect.html">connect</a>.
+</li><li> <a class="ref" href="openpty.html">openpty</a>.
+</li><li> <a class="ref" href="fsync.html">fsync</a>.
+</li><li> <a class="ref" href="link.html">link</a>.
+</li><li> <a class="ref" href="ptrace.html">ptrace</a>.
+</li><li> <a class="ref" href="listen.html">listen</a>.
+</li><li> <a class="ref" href="accept.html">accept</a>.
+</li><li> <a class="ref" href="getrlimit_002fsetrlimit.html">getrlimit</a>.
+</li><li> <a class="ref" href="getrlimit_002fsetrlimit.html">setrlimit</a>.
+</li><li> <a class="ref" href="access.html">access</a>.
+</li><li> <a class="ref" href="ppoll.html">ppoll</a>.
+</li><li> <a class="ref" href="getuid_002fgeteuid.html">geteuid</a>.
+</li><li> <a class="ref" href="setuids.html">setuids</a>.
+</li><li> <a class="ref" href="fchmod.html">fchmod</a>.
+</li><li> <a class="ref" href="umask.html">umask</a>.
+</li><li> <a class="ref" href="reboot.html">reboot</a>.
+</li><li> <a class="ref" href="fchown.html">fchown</a>.
+</li><li> <a class="ref" href="pread_002fpwrite.html">pread</a>.
+</li><li> <a class="ref" href="pread_002fpwrite.html">pwrite</a>.
+</li><li> <a class="ref" href="getsockname.html">getsockname</a>.
+</li><li> <a class="ref" href="getpeername.html">getpeername</a>.
+</li><li> <a class="ref" href="shutdown.html">shutdown</a>.
+</li><li> <a class="ref" href="futex.html">futex</a>.
+</li><li> <a class="ref" href="clock.html">clock</a>.
+</li><li> <a class="ref" href="clock_005fnanosleep.html">clock_nanosleep</a>.
+</li><li> <a class="ref" href="getrusage.html">getrusage</a>.
+</li><li> <a class="ref" href="recvfrom_002fsendto.html">recvfrom</a>.
+</li><li> <a class="ref" href="recvfrom_002fsendto.html">sendto</a>.
+</li><li> <a class="ref" href="config_005fnetinter.html">config_netinter</a>.
+</li><li> <a class="ref" href="utimes.html">utimes</a>.
+</li><li> <a class="ref" href="create_005ftcluster.html">create_tcluster</a>.
+</li><li> <a class="ref" href="switch_005ftcluster.html">switch_tcluster</a>.
+</li><li> <a class="ref" href="sigprogmask.html">sigprogmask</a>.
+</li><li> <a class="ref" href="sigaction.html">sigaction</a>.
+</li><li> <a class="ref" href="send_005fsignal.html">send_signal</a>.
+</li><li> <a class="ref" href="getprio_002fsetprio.html">getprio</a>.
+</li><li> <a class="ref" href="getprio_002fsetprio.html">setprio</a>.
+</li><li> <a class="ref" href="getgid_002fgetegid.html">getgid</a>.
+</li><li> <a class="ref" href="getgid_002fgetegid.html">getegid</a>.
+</li><li> <a class="ref" href="setgids.html">setgids</a>.
+</li><li> <a class="ref" href="getgroups_002fsetgroups.html">getgroups</a>.
+</li><li> <a class="ref" href="getgroups_002fsetgroups.html">setgroups</a>.
+</li><li> <a class="ref" href="ttyname.html">ttyname</a>.
+</li><li> <a class="ref" href="fadvise.html">fadvise</a>.
+</li><li> <a class="ref" href="shmat.html">shmat</a>.
+</li><li> <a class="ref" href="shmctl.html">shmctl</a>.
+</li><li> <a class="ref" href="shmdl.html">shmdl</a>.
+</li><li> <a class="ref" href="shmget.html">shmget</a>.
+</li><li> <a class="ref" href="getsockopt_002fsetsockopt.html">getsockopt</a>.
+</li><li> <a class="ref" href="getsockopt_002fsetsockopt.html">setsockopt</a>.
+</li><li> <a class="ref" href="gettidid_002fsettidid.html">gettidid</a>.
+</li><li> <a class="ref" href="gettidid_002fsettidid.html">settidid</a>.
+</li><li> <a class="ref" href="failure_005fpolicy.html">failure_policy</a>.
+</li><li> <a class="ref" href="create_005fthread.html">create_thread</a>.
+</li></ol>
+
+<ul class="mini-toc">
+<li><a href="#riscv64_002dlimine" accesskey="1">riscv64-limine</a></li>
+<li><a href="#x86_005f64_002dlimine" accesskey="2">x86_64-limine</a></li>
+</ul>
+<div class="subsection-level-extent" id="riscv64_002dlimine">
+<h4 class="subsection"><span>9.1.1 riscv64-limine<a class="copiable-link" href="#riscv64_002dlimine"> &para;</a></span></h4>
+
+<p>Syscalls are invoked in Ironclad by using <code class="code">ecall</code>.
+</p>
+<p>The index of the syscall is passed over <code class="code">a7</code>, while the return value is
+returned in <code class="code">a0</code>, errno is returned in <code class="code">a1</code>, arguments are passed
+over <code class="code">a0</code> to <code class="code">a6</code>.
+</p>
+</div>
+<div class="subsection-level-extent" id="x86_005f64_002dlimine">
+<h4 class="subsection"><span>9.1.2 x86_64-limine<a class="copiable-link" href="#x86_005f64_002dlimine"> &para;</a></span></h4>
+
+<p>Syscalls are invoked in Ironclad by using <code class="code">syscall</code>.
+</p>
+<p>The index of the syscall is passed over <code class="code">%rax</code>, while the return value is
+returned in <code class="code">%rax</code>, errno is returned on <code class="code">%rdx</code>, arguments are passed
+over <code class="code">%rdi</code>, <code class="code">%rsi</code>, <code class="code">%rdx</code>, <code class="code">%r12</code>, <code class="code">%r8</code>,
+<code class="code">%r9</code>, and <code class="code">%r10</code>, following the SysV ABI.
+</p>
+</div>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Errno.html">Errno</a>, Up: <a href="Syscalls.html">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

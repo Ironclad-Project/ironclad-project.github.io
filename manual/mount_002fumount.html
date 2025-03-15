@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>mount/umount (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="mount/umount (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="mount/umount (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="readlink.html" rel="next" title="readlink">
+<link href="set_005fmac_005fenforcement.html" rel="prev" title="set_mac_enforcement">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="mount_002fumount">
+<div class="nav-panel">
+<p>
+Next: <a href="readlink.html" accesskey="n" rel="next">readlink</a>, Previous: <a href="set_005fmac_005fenforcement.html" accesskey="p" rel="prev">set_mac_enforcement</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="mount_002fumount-1"><span>9.35 mount/umount<a class="copiable-link" href="#mount_002fumount-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define MNT_FAT   1</span>
+<span style="color:#008200">#define MNT_EXT   2</span>
+<span style="color:#008200">#define MNT_DEV   3</span>
+
+<span style="color:#008200">#define MS_RDONLY   0b0001</span>
+<span style="color:#008200">#define MS_REMOUNT  0b0010</span>
+<span style="color:#008200">#define MS_RELATIME 0b0100</span>
+<span style="color:#008200">#define MS_NOATIME  0b1000</span>
+
+<span style="color:#008200">#define MNT_FORCE 1</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">mount</span><span style="color:#000000">(</span><span style="color:#0057ae">const char</span> <span style="color:#000000">*</span>source<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> source_len<span style="color:#000000">,</span> <span style="color:#0057ae">const char</span> <span style="color:#000000">*</span>target<span style="color:#000000">,</span>
+          <span style="color:#0057ae">int</span> target_len<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> fs_type<span style="color:#000000">,</span> <span style="color:#0057ae">unsigned long</span> flags<span style="color:#000000">);</span>
+<span style="color:#0057ae">int</span> <span style="color:#010181">umount</span><span style="color:#000000">(</span><span style="color:#0057ae">const char</span> <span style="color:#000000">*</span>target<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> target_len<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> flags<span style="color:#000000">);</span>
+</pre></div>
+
+<p>These syscalls mount and unmount filesystems. For <code class="code">mount</code>, <code class="code">source</code>
+is the source device while <code class="code">target</code> is where to mount in the
+global virtual filesystem. For <code class="code">umount</code>, <code class="code">target</code> is the path to
+unmount.
+</p>
+<p>For <code class="code">mount</code>, <code class="code">fs_type</code> can be one of the following values to choose
+the filesystem type to mount, it must be specified, detection is not done.
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">MNT_FAT</code>: FAT family filesystem.
+</li><li><code class="code">MNT_EXT</code>: EXT family filesystem.
+</li><li><code class="code">MNT_DEV</code>: DevFS filesystem, cannot be used.
+</li></ul>
+
+<p>For <code class="code">mount</code>, <code class="code">flags</code> allows:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">MNT_RDONLY</code>: Mount as read-only.
+</li><li><code class="code">MNT_REMOUNT</code>: Remount an existing filesystem.
+</li><li><code class="code">MNT_RELATIME</code>: Use relative time for the mount, to know what it does,
+<a class="ref" href="Generic-filesystem-options.html">Generic filesystem options</a>. Conflicts with <code class="code">MNT_NOATIME</code>.\
+</li><li><code class="code">MNT_NOATIME</code>: Do not track access times. To know what it does,
+<a class="ref" href="Generic-filesystem-options.html">Generic filesystem options</a>.
+</li></ul>
+
+<p>For <code class="code">umount</code>, <code class="code">flags</code> allows the following options:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">MNT_FORCE</code>: Unmount the filesystem even if busy, can cause data loss.
+</li></ul>
+
+<p>These syscalls returns <code class="code">0</code> on success or <code class="code">-1</code> on failure, with the
+following errno:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EFAULT</code>: Incorrect addresses for the string arguments.
+</li><li><code class="code">EACCES</code>: MAC forbid this operation.
+</li><li><code class="code">EINVAL</code>: Wrong arguments.
+</li><li><code class="code">EBUSY</code>: For <code class="code">umount</code>, the mount is busy, and <code class="code">MNT_FORCE</code> was
+not passed.
+</li></ul>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="readlink.html">readlink</a>, Previous: <a href="set_005fmac_005fenforcement.html">set_mac_enforcement</a>, Up: <a href="Syscalls.html">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

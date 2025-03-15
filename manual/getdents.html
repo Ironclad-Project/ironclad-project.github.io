@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>getdents (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="getdents (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="getdents (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="sync.html" rel="next" title="sync">
+<link href="readlink.html" rel="prev" title="readlink">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="getdents">
+<div class="nav-panel">
+<p>
+Next: <a href="sync.html" accesskey="n" rel="next">sync</a>, Previous: <a href="readlink.html" accesskey="p" rel="prev">readlink</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="getdents-1"><span>9.37 getdents<a class="copiable-link" href="#getdents-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define DT_UNKNOWN 0</span>
+<span style="color:#008200">#define DT_FIFO    1</span>
+<span style="color:#008200">#define DT_CHR     2</span>
+<span style="color:#008200">#define DT_DIR     4</span>
+<span style="color:#008200">#define DT_BLK     6</span>
+<span style="color:#008200">#define DT_REG     8</span>
+<span style="color:#008200">#define DT_LNK    10</span>
+<span style="color:#008200">#define DT_SOCK   12</span>
+<span style="color:#008200">#define DT_WHT    14</span>
+
+<span style="color:#0057ae">struct</span> dirent <span style="color:#000000">{</span>
+   <span style="color:#0057ae">uint64_t</span> d_ino<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint64_t</span> d_off<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint16_t</span> d_reclen<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint8_t</span>  d_type<span style="color:#000000">;</span>     <span style="color:#838183; font-style:italic">// One of the DT_ values.</span>
+   <span style="color:#0057ae">char</span>     d_name<span style="color:#000000">[</span><span style="color:#b07e00">61</span><span style="color:#000000">];</span> <span style="color:#838183; font-style:italic">// Null-terminated.</span>
+<span style="color:#000000">};</span>
+
+ssize_t <span style="color:#010181">getdents</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> fd<span style="color:#000000">,</span> <span style="color:#0057ae">struct</span> dirent <span style="color:#000000">*</span>buffer<span style="color:#000000">,</span> <span style="color:#0057ae">size_t</span> size<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall reads the contents of the passed directory, and advances the
+file position for the directory by the amount of read directory entries.
+Partial reads are supported.
+</p>
+<p>The syscalls return the read length in bytes on success, or <code class="code">0</code> if no
+contents or <code class="code">-1</code> on failure, with the following errno:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EFAULT</code>: Incorrect addresses for the arguments.
+</li><li><code class="code">EBADFD</code>: <code class="code">fd</code> does not contain a valid file.
+</li><li><code class="code">ENOENT</code>: <code class="code">fd</code> is not a directory.
+</li><li><code class="code">EINVAL</code>: <code class="code">size</code> is not big enough to fit all the directory entries.
+</li></ul>
+
+</div>
+
+
+
+</body>
+</html>

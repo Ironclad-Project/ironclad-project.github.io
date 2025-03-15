@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>read/write (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="read/write (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="read/write (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="seek.html" rel="next" title="seek">
+<link href="close.html" rel="prev" title="close">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="read_002fwrite">
+<div class="nav-panel">
+<p>
+Next: <a href="seek.html" accesskey="n" rel="next">seek</a>, Previous: <a href="close.html" accesskey="p" rel="prev">close</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="read_002fwrite-1"><span>9.7 read/write<a class="copiable-link" href="#read_002fwrite-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted">ssize_t <span style="color:#010181">read</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> fd<span style="color:#000000">,</span> <span style="color:#0057ae">void</span> <span style="color:#000000">*</span>buffer<span style="color:#000000">,</span> <span style="color:#0057ae">size_t</span> count<span style="color:#000000">);</span>
+ssize_t <span style="color:#010181">write</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> fd<span style="color:#000000">,</span> <span style="color:#0057ae">void</span> <span style="color:#000000">*</span>buffer<span style="color:#000000">,</span> <span style="color:#0057ae">size_t</span> count<span style="color:#000000">);</span>
+</pre></div>
+
+<p>These syscalls attempts to read or write up to passed count from the passed file descriptor.
+</p>
+<p>On files that support seeking, the operation commences at the file offset, and
+the file offset is incremented by the number of bytes read or written. If the
+file offset is at or past the end of file, no bytes are read or written, and
+the operation returns zero.
+</p>
+<p>These syscalls returns the number of bytes operated on, or <code class="code">-1</code> on
+failure. errno is to be set to:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EBADF</code>: Bad file descriptor.
+
+</li><li><code class="code">EFAULT</code>: The passed buffer is not accessible.
+
+</li><li><code class="code">EINVAL</code>: The passed fd is not suitable for the operation.
+
+</li><li><code class="code">EFBIG</code>: When writing, the issued write would surpass the process
+file size limit.
+
+</li><li><code class="code">EIO</code>: The requested operation failed at the device level.
+</li></ul>
+
+</div>
+
+
+
+</body>
+</html>

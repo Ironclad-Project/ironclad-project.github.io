@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Syscalls (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="Syscalls (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="Syscalls (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html" rel="up" title="Top">
+<link href="Filesystem-support-and-interfaces.html" rel="next" title="Filesystem support and interfaces">
+<link href="Debugging-facilities.html" rel="prev" title="Debugging facilities">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="chapter-level-extent" id="Syscalls">
+<div class="nav-panel">
+<p>
+Next: <a href="Filesystem-support-and-interfaces.html" accesskey="n" rel="next">Filesystem support and interfaces</a>, Previous: <a href="Debugging-facilities.html" accesskey="p" rel="prev">Debugging facilities</a>, Up: <a href="index.html" accesskey="u" rel="up">Ironclad User&rsquo;s Guide</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h2 class="chapter" id="Syscalls-1"><span>9 Syscalls<a class="copiable-link" href="#Syscalls-1"> &para;</a></span></h2>
+
+<p>Syscall are the main method for userland to interface with the kernel&rsquo;s
+facilities, this section delves into the mechanism and how it works.
+</p>
+<ul class="mini-toc">
+<li><a href="Table-and-target-quirks.html" accesskey="1">Table and target quirks</a></li>
+<li><a href="Errno.html" accesskey="2">Errno</a></li>
+<li><a href="exit.html" accesskey="3">exit</a></li>
+<li><a href="arch_005fprctl.html" accesskey="4">arch_prctl</a></li>
+<li><a href="open.html" accesskey="5">open</a></li>
+<li><a href="close.html" accesskey="6">close</a></li>
+<li><a href="read_002fwrite.html" accesskey="7">read/write</a></li>
+<li><a href="seek.html" accesskey="8">seek</a></li>
+<li><a href="mmap_002fmprotect_002fmunmap.html" accesskey="9">mmap/mprotect/munmap</a></li>
+<li><a href="getpid_002fgetppid.html">getpid/getppid</a></li>
+<li><a href="exec.html">exec</a></li>
+<li><a href="fork.html">fork</a></li>
+<li><a href="wait.html">wait</a></li>
+<li><a href="socket.html">socket</a></li>
+<li><a href="sethostname.html">sethostname</a></li>
+<li><a href="unlink.html">unlink</a></li>
+<li><a href="fstat.html">fstat</a></li>
+<li><a href="pivot_005froot.html">pivot_root</a></li>
+<li><a href="chdir.html">chdir</a></li>
+<li><a href="ioctl.html">ioctl</a></li>
+<li><a href="sched_005fyield.html">sched_yield</a></li>
+<li><a href="delete_005ftcluster.html">delete_tcluster</a></li>
+<li><a href="pipe.html">pipe</a></li>
+<li><a href="rename.html">rename</a></li>
+<li><a href="sysconf.html">sysconf</a></li>
+<li><a href="spawn.html">spawn</a></li>
+<li><a href="gettid.html">gettid</a></li>
+<li><a href="manage_005ftcluster.html">manage_tcluster</a></li>
+<li><a href="fcntl.html">fcntl</a></li>
+<li><a href="exit_005fthread.html">exit_thread</a></li>
+<li><a href="getrandom.html">getrandom</a></li>
+<li><a href="mac_005fcapabilities.html">mac_capabilities</a></li>
+<li><a href="add_005fmac_005fpermissions.html">add_mac_permissions</a></li>
+<li><a href="set_005fmac_005fenforcement.html">set_mac_enforcement</a></li>
+<li><a href="mount_002fumount.html">mount/umount</a></li>
+<li><a href="readlink.html">readlink</a></li>
+<li><a href="getdents.html">getdents</a></li>
+<li><a href="sync.html">sync</a></li>
+<li><a href="mknod.html">mknod</a></li>
+<li><a href="truncate.html">truncate</a></li>
+<li><a href="bind.html">bind</a></li>
+<li><a href="mkdir.html">mkdir</a></li>
+<li><a href="symlink.html">symlink</a></li>
+<li><a href="connect.html">connect</a></li>
+<li><a href="openpty.html">openpty</a></li>
+<li><a href="fsync.html">fsync</a></li>
+<li><a href="link.html">link</a></li>
+<li><a href="ptrace.html">ptrace</a></li>
+<li><a href="listen.html">listen</a></li>
+<li><a href="accept.html">accept</a></li>
+<li><a href="getrlimit_002fsetrlimit.html">getrlimit/setrlimit</a></li>
+<li><a href="access.html">access</a></li>
+<li><a href="ppoll.html">ppoll</a></li>
+<li><a href="getuid_002fgeteuid.html">getuid/geteuid</a></li>
+<li><a href="setuids.html">setuids</a></li>
+<li><a href="fchmod.html">fchmod</a></li>
+<li><a href="umask.html">umask</a></li>
+<li><a href="reboot.html">reboot</a></li>
+<li><a href="fchown.html">fchown</a></li>
+<li><a href="pread_002fpwrite.html">pread/pwrite</a></li>
+<li><a href="getsockname.html">getsockname</a></li>
+<li><a href="getpeername.html">getpeername</a></li>
+<li><a href="shutdown.html">shutdown</a></li>
+<li><a href="futex.html">futex</a></li>
+<li><a href="clock.html">clock</a></li>
+<li><a href="clock_005fnanosleep.html">clock_nanosleep</a></li>
+<li><a href="getrusage.html">getrusage</a></li>
+<li><a href="recvfrom_002fsendto.html">recvfrom/sendto</a></li>
+<li><a href="config_005fnetinter.html">config_netinter</a></li>
+<li><a href="utimes.html">utimes</a></li>
+<li><a href="create_005ftcluster.html">create_tcluster</a></li>
+<li><a href="switch_005ftcluster.html">switch_tcluster</a></li>
+<li><a href="sigprogmask.html">sigprogmask</a></li>
+<li><a href="sigaction.html">sigaction</a></li>
+<li><a href="send_005fsignal.html">send_signal</a></li>
+<li><a href="getprio_002fsetprio.html">getprio/setprio</a></li>
+<li><a href="getgid_002fgetegid.html">getgid/getegid</a></li>
+<li><a href="setgids.html">setgids</a></li>
+<li><a href="getgroups_002fsetgroups.html">getgroups/setgroups</a></li>
+<li><a href="ttyname.html">ttyname</a></li>
+<li><a href="fadvise.html">fadvise</a></li>
+<li><a href="shmat.html">shmat</a></li>
+<li><a href="shmctl.html">shmctl</a></li>
+<li><a href="shmdl.html">shmdl</a></li>
+<li><a href="shmget.html">shmget</a></li>
+<li><a href="getsockopt_002fsetsockopt.html">getsockopt/setsockopt</a></li>
+<li><a href="gettidid_002fsettidid.html">gettidid/settidid</a></li>
+<li><a href="failure_005fpolicy.html">failure_policy</a></li>
+<li><a href="create_005fthread.html">create_thread</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>sysconf (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="sysconf (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="sysconf (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="spawn.html" rel="next" title="spawn">
+<link href="rename.html" rel="prev" title="rename">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="sysconf">
+<div class="nav-panel">
+<p>
+Next: <a href="spawn.html" accesskey="n" rel="next">spawn</a>, Previous: <a href="rename.html" accesskey="p" rel="prev">rename</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="sysconf-1"><span>9.25 sysconf<a class="copiable-link" href="#sysconf-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define SC_PAGESIZE         1</span> <span style="color:#838183; font-style:italic">// Page size of the system.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_OPEN_MAX         2</span> <span style="color:#838183; font-style:italic">// Maximum amount of files per process.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_HOST_NAME_MAX    3</span> <span style="color:#838183; font-style:italic">// Maximum length of hostnames.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_AVPHYS_PAGES     4</span> <span style="color:#838183; font-style:italic">// Number of free physical pages.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_PHYS_PAGES       5</span> <span style="color:#838183; font-style:italic">// Number of total available pages.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_NPROCESSORS_ONLN 6</span> <span style="color:#838183; font-style:italic">// Number of processors active and used.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_TOTAL_PAGES      7</span> <span style="color:#838183; font-style:italic">// Total amount of installed memory pages.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_LIST_PROCS       8</span> <span style="color:#838183; font-style:italic">// List all processes of the system.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_LIST_MOUNTS      9</span> <span style="color:#838183; font-style:italic">// List all mountpoints of the system.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_UNAME           10</span> <span style="color:#838183; font-style:italic">// Fetch basic system information.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_CHILD_MAX       11</span> <span style="color:#838183; font-style:italic">// Maximum number of children for the user.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_LIST_THREADS    12</span> <span style="color:#838183; font-style:italic">// List all threads of the system.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_LIST_CLUSTERS   13</span> <span style="color:#838183; font-style:italic">// List all thread clusters of the system.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_LIST_NETINTER   14</span> <span style="color:#838183; font-style:italic">// List all network interfaces.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_DUMPLOGS        15</span> <span style="color:#838183; font-style:italic">// Dump kernel logging to a buffer.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_NGROUPS_MAX     16</span> <span style="color:#838183; font-style:italic">// Max number of supplementary groups.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_SYMLOOP_MAX     17</span> <span style="color:#838183; font-style:italic">// Max number of symbolic loops to follow.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_LIST_FILELOCKS  18</span> <span style="color:#838183; font-style:italic">// List all advisory file locks.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_LOADAVG         19</span> <span style="color:#838183; font-style:italic">// Dump load averages.</span>
+<span style="color:#008200"></span><span style="color:#008200">#define SC_MEMINFO         20</span> <span style="color:#838183; font-style:italic">// Dump memory information.</span>
+<span style="color:#008200"></span>
+<span style="color:#0057ae">long int</span> <span style="color:#010181">sysconf</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> request<span style="color:#000000">,</span> <span style="color:#0057ae">uintptr_t</span> addr<span style="color:#000000">,</span> <span style="color:#0057ae">uintptr_t</span> len<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscalls fetches the requested information in <code class="code">request</code> and returns
+it.
+</p>
+<p>Depending on the request, <code class="code">addr</code> and <code class="code">len</code> may be used for
+determining the address of a buffer and its length for reporting information
+that doesn&rsquo;t fit on the usual return value. The options where they have meaning
+are:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">SC_LIST_PROCS</code>: <code class="code">addr</code> points to an array of items, and <code class="code">len</code>
+is the count of bytes reserved in the array. The items have the structure:
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> procinfo <span style="color:#000000">{</span>
+    <span style="color:#0057ae">char</span> id<span style="color:#000000">[</span><span style="color:#b07e00">20</span><span style="color:#000000">];</span>
+    <span style="color:#0057ae">uint16_t</span> id_len<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint16_t</span> ppid<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint16_t</span> pid<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint32_t</span> uid<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint32_t</span> flags<span style="color:#000000">;</span>
+<span style="color:#000000">}</span> <span style="color:#010181">__attribute__</span><span style="color:#000000">((</span>packed<span style="color:#000000">));</span>
+</pre></div>
+
+<p>The total number of processes is returned, even if it doesnt fit in the passed
+array.
+</p>
+</li><li><code class="code">SC_LIST_MOUNTS</code>: <code class="code">addr</code> points to an array of items, and <code class="code">len</code>
+is the count of bytes reserved in the array. The items have the structure:
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> mountinfo <span style="color:#000000">{</span>
+    <span style="color:#0057ae">uint32_t</span> fs_type<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint32_t</span> flags<span style="color:#000000">;</span>
+    <span style="color:#0057ae">char</span> source<span style="color:#000000">[</span><span style="color:#b07e00">20</span><span style="color:#000000">];</span>
+    <span style="color:#0057ae">uint32_t</span> source_len<span style="color:#000000">;</span>
+    <span style="color:#0057ae">char</span> location<span style="color:#000000">[</span><span style="color:#b07e00">20</span><span style="color:#000000">];</span>
+    <span style="color:#0057ae">uint32_t</span> location_len<span style="color:#000000">;</span>
+<span style="color:#000000">};</span>
+</pre></div>
+
+<p>The total number of mounts is returned, even if it doesnt fit in the passed
+array.
+</p>
+</li><li><code class="code">SC_UNAME</code>: <code class="code">addr</code> points to the following structure, and <code class="code">len</code>
+is the length in bytes of said structure:
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> utsname <span style="color:#000000">{</span>
+    <span style="color:#0057ae">char</span> sysname<span style="color:#000000">[</span><span style="color:#b07e00">65</span><span style="color:#000000">];</span>  <span style="color:#838183; font-style:italic">// Kernel name (e.g., &quot;Ironclad&quot;)</span>
+    <span style="color:#0057ae">char</span> nodename<span style="color:#000000">[</span><span style="color:#b07e00">65</span><span style="color:#000000">];</span> <span style="color:#838183; font-style:italic">// Hostname of the machine.</span>
+    <span style="color:#0057ae">char</span> release<span style="color:#000000">[</span><span style="color:#b07e00">65</span><span style="color:#000000">];</span>  <span style="color:#838183; font-style:italic">// Kernel release (e.g., &quot;2.6.28&quot;)</span>
+    <span style="color:#0057ae">char</span> version<span style="color:#000000">[</span><span style="color:#b07e00">65</span><span style="color:#000000">];</span>  <span style="color:#838183; font-style:italic">// Kernel release, again.</span>
+    <span style="color:#0057ae">char</span> machine<span style="color:#000000">[</span><span style="color:#b07e00">65</span><span style="color:#000000">];</span>  <span style="color:#838183; font-style:italic">// Hardware identifier (e.g., &quot;x86&quot;)</span>
+<span style="color:#000000">};</span>
+</pre></div>
+
+<p>In success, the returned value will be <code class="code">0</code>.
+</p>
+</li><li><code class="code">SC_LIST_THREADS</code>: <code class="code">addr</code> points to an array of items, and <code class="code">len</code>
+is the count of bytes reserved in the array. The items have the structure:
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> threadinfo <span style="color:#000000">{</span>
+    <span style="color:#0057ae">uint16_t</span> tid<span style="color:#000000">;</span>
+    <span style="color:#0057ae">int16_t</span>  niceness<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint16_t</span> tcid<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint16_t</span> pid<span style="color:#000000">;</span>
+<span style="color:#000000">};</span>
+</pre></div>
+
+<p>The total number of threads is returned, even if it doesnt fit in the passed
+array.
+</p>
+</li><li><code class="code">SC_LIST_CLUSTERS</code>: <code class="code">addr</code> points to an array of items, and
+<code class="code">len</code> is the count of bytes reserved in the array. The items have the
+structure:
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> tclusterinfo <span style="color:#000000">{</span>
+    <span style="color:#0057ae">uint16_t</span> tcid<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint16_t</span> tflags<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint16_t</span> tquantum<span style="color:#000000">;</span>
+<span style="color:#000000">};</span>
+</pre></div>
+
+<p>The total number of thread clusters is returned, even if it doesnt fit in the
+passed array.
+</p>
+</li><li><code class="code">SC_LIST_NETINTER</code>: <code class="code">addr</code> points to an array of items, and
+<code class="code">len</code> is the count of bytes reserved in the array. The items have the
+structure:
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> netinterface <span style="color:#000000">{</span>
+    <span style="color:#0057ae">char</span> device<span style="color:#000000">[</span><span style="color:#b07e00">64</span><span style="color:#000000">];</span> <span style="color:#838183; font-style:italic">// null terminated.</span>
+    <span style="color:#0057ae">uint64_t</span> flags<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint8_t</span> mac_addr<span style="color:#000000">[</span><span style="color:#b07e00">6</span><span style="color:#000000">];</span>
+    <span style="color:#0057ae">uint8_t</span> ip4_addr<span style="color:#000000">[</span><span style="color:#b07e00">4</span><span style="color:#000000">];</span>
+    <span style="color:#0057ae">uint8_t</span> ip4_subnet<span style="color:#000000">[</span><span style="color:#b07e00">4</span><span style="color:#000000">];</span>
+    <span style="color:#0057ae">uint8_t</span> ip6_addr<span style="color:#000000">[</span><span style="color:#b07e00">16</span><span style="color:#000000">];</span>
+    <span style="color:#0057ae">uint8_t</span> ip6_subnet<span style="color:#000000">[</span><span style="color:#b07e00">16</span><span style="color:#000000">];</span>
+<span style="color:#000000">};</span>
+</pre></div>
+
+</li><li><code class="code">SC_DUMPLOGS</code>: <code class="code">addr</code> points to a string to store the buffer, which
+is an array of 80-char long strings. <code class="code">len</code> is the length of the buffer.
+The total length of the kernel buffer is returned, regardless of whether it
+fits or not.
+
+</li><li><code class="code">SC_LIST_FILELOCKS</code>: <code class="code">addr</code> points to an array of items, and
+<code class="code">len</code> is the count of bytes reserved in the array. The items have the
+structure:
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> flock_info <span style="color:#000000">{</span>
+    <span style="color:#0057ae">uint32_t</span> pid<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint32_t</span> mode<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint64_t</span> start<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint64_t</span> length<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint64_t</span> dev_id<span style="color:#000000">;</span>
+    <span style="color:#0057ae">uint64_t</span> inode<span style="color:#000000">;</span>
+<span style="color:#000000">};</span>
+</pre></div>
+
+</li><li><code class="code">SC_LOADAVG</code>: <code class="code">addr</code> points to an array of at least 3 integers, and
+<code class="code">len</code> is the count of bytes reserved in the array. The array has the
+structure:
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">uint32_t</span> array<span style="color:#000000">[</span><span style="color:#b07e00">3</span><span style="color:#000000">];</span>
+</pre></div>
+
+<p>The values the number of threads in the system run queue averaged over
+various periods of time. The 3 samples correspond to the averages of 1, 5, and
+15 minutes, respectively. It can be used as a measure of relative load. The
+values are to be divided by 100 before being used.
+</p>
+</li><li><code class="code">SC_MEMINFO</code>: <code class="code">len</code> is ignored and <code class="code">addr</code> points to a structure
+as such:
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> mem_info <span style="color:#000000">{</span>
+    <span style="color:#838183; font-style:italic">// All data is in bytes.</span>
+    <span style="color:#0057ae">uint64_t</span> phys_total<span style="color:#000000">;</span>     <span style="color:#838183; font-style:italic">// Total physical memory of the system.</span>
+    <span style="color:#0057ae">uint64_t</span> phys_available<span style="color:#000000">;</span> <span style="color:#838183; font-style:italic">// Non-reserved memory managed by the system.</span>
+    <span style="color:#0057ae">uint64_t</span> phys_free<span style="color:#000000">;</span>      <span style="color:#838183; font-style:italic">// Free memory available to the system.</span>
+    <span style="color:#0057ae">uint64_t</span> shared_usage<span style="color:#000000">;</span>   <span style="color:#838183; font-style:italic">// Amount of shared memory in the system.</span>
+    <span style="color:#0057ae">uint64_t</span> kernel_usage<span style="color:#000000">;</span>   <span style="color:#838183; font-style:italic">// Amount of memory in use by the kernel.</span>
+    <span style="color:#0057ae">uint64_t</span> table_usage<span style="color:#000000">;</span>    <span style="color:#838183; font-style:italic">// Of the kernel, amount in use for page tables.</span>
+    <span style="color:#0057ae">uint64_t</span> poison_usage<span style="color:#000000">;</span>   <span style="color:#838183; font-style:italic">// Memory marked by the hardware as faulty.</span>
+<span style="color:#000000">};</span>
+</pre></div>
+
+<p><code class="code">0</code> is returned on success.
+</p></li></ul>
+
+<p>The syscall return the requested information on success and <code class="code">-1</code> on
+failure. If the requested value can also be <code class="code">-1</code>, errno must be checked.
+</p>
+<p>The errno codes set on failure are:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EINVAL</code>: Invalid request.
+</li></ul>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="spawn.html">spawn</a>, Previous: <a href="rename.html">rename</a>, Up: <a href="Syscalls.html">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

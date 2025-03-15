@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>mac_capabilities (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="mac_capabilities (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="mac_capabilities (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="add_005fmac_005fpermissions.html" rel="next" title="add_mac_permissions">
+<link href="getrandom.html" rel="prev" title="getrandom">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="mac_005fcapabilities">
+<div class="nav-panel">
+<p>
+Next: <a href="add_005fmac_005fpermissions.html" accesskey="n" rel="next">add_mac_permissions</a>, Previous: <a href="getrandom.html" accesskey="p" rel="prev">getrandom</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="mac_005fcapabilities-1"><span>9.32 mac_capabilities<a class="copiable-link" href="#mac_005fcapabilities-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define MAC_CAP_SCHED     0b000000000000001</span>
+<span style="color:#008200">#define MAC_CAP_SPAWN     0b000000000000010</span>
+<span style="color:#008200">#define MAC_CAP_ENTROPY   0b000000000000100</span>
+<span style="color:#008200">#define MAC_CAP_SYS_MEM   0b000000000001000</span>
+<span style="color:#008200">#define MAC_CAP_USE_NET   0b000000000010000</span>
+<span style="color:#008200">#define MAC_CAP_SYS_NET   0b000000000100000</span>
+<span style="color:#008200">#define MAC_CAP_SYS_MNT   0b000000001000000</span>
+<span style="color:#008200">#define MAC_CAP_SYS_PWR   0b000000010000000</span>
+<span style="color:#008200">#define MAC_CAP_PTRACE    0b000000100000000</span>
+<span style="color:#008200">#define MAC_CAP_SETUID    0b000001000000000</span>
+<span style="color:#008200">#define MAC_CAP_SYS_MAC   0b000010000000000</span>
+<span style="color:#008200">#define MAC_CAP_SIGNALALL 0b000100000000000</span>
+<span style="color:#008200">#define MAC_CAP_SETGID    0b001000000000000</span>
+<span style="color:#008200">#define MAC_CAP_IPC       0b010000000000000</span>
+<span style="color:#008200">#define MAC_CAP_SYS_LOG   0b100000000000000</span>
+
+<span style="color:#0057ae">unsigned long</span> <span style="color:#010181">get_mac_capabilities</span><span style="color:#000000">(</span><span style="color:#0057ae">void</span><span style="color:#000000">);</span>
+<span style="color:#0057ae">int</span> <span style="color:#010181">set_mac_capabilities</span><span style="color:#000000">(</span><span style="color:#0057ae">unsigned long</span> request<span style="color:#000000">);</span>
+</pre></div>
+
+<p>These syscalls allow to fetch and set MAC capabilities on the way described in
+<a class="ref" href="Mandatory-access-control-_0028MAC_0029.html">Mandatory access control (MAC)</a>.
+</p>
+<p>Both syscalls cannot fail, <code class="code">get_mac_capabilities</code> always returns the
+capabilities of the callee process and <code class="code">set_mac_capabilities</code> always
+returns <code class="code">0</code>, settings will just be ignored if permission to change them
+is not granted.
+</p>
+</div>
+
+
+
+</body>
+</html>

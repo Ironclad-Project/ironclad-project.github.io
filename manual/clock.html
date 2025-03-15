@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>clock (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="clock (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="clock (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="clock_005fnanosleep.html" rel="next" title="clock_nanosleep">
+<link href="futex.html" rel="prev" title="futex">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="clock">
+<div class="nav-panel">
+<p>
+Next: <a href="clock_005fnanosleep.html" accesskey="n" rel="next">clock_nanosleep</a>, Previous: <a href="futex.html" accesskey="p" rel="prev">futex</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="clock-1"><span>9.65 clock<a class="copiable-link" href="#clock-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define CLOCK_REALTIME  0</span>
+<span style="color:#008200">#define CLOCK_MONOTONIC 1</span>
+<span style="color:#008200">#define CLOCK_GETRES    0</span>
+<span style="color:#008200">#define CLOCK_GETTIME   1</span>
+<span style="color:#008200">#define CLOCK_SETTIME   2</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">clock</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> operation<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> clock_id<span style="color:#000000">,</span> <span style="color:#0057ae">struct</span> timespec <span style="color:#000000">*</span>time<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall fetches or sets epoch dates for each of the supported clocks.
+Clock is passed in <code class="code">clock_id</code>, with the following values.
+</p>
+<dl class="table">
+<dt><code class="code">CLOCK_REALTIME</code></dt>
+<dd><p>Wall-clock, may jump forward and back thanks to time setting.
+</p>
+</dd>
+<dt><code class="code">CLOCK_MONOTONIC</code></dt>
+<dd><p>Clock that only moves forward, and is unaffected by NTP or adjustements. It
+starts from an unspecified, target-dependent point in time, usually boot.
+</p>
+<p>Unlike Linux, it is still counted during suspend.
+</p></dd>
+</dl>
+
+<p><code class="code">operation</code> specifies what to do, as such:
+</p>
+<dl class="table">
+<dt><code class="code">CLOCK_GETRES</code></dt>
+<dd><p>Load the resolution of the passed clock on the contents of <code class="code">time</code>.
+</p>
+</dd>
+<dt><code class="code">CLOCK_GETTIME</code></dt>
+<dd><p>Load the epoch date of the passed clock on the contents of <code class="code">time</code>.
+</p>
+</dd>
+<dt><code class="code">CLOCK_SETTIME</code></dt>
+<dd><p>Set the epoch date of the passed clock to the contents of <code class="code">time</code>, not
+supported for <code class="code">CLOCK_MONOTONIC</code>. Underlying hardware will always be
+updated.
+</p></dd>
+</dl>
+
+<p>The syscall returns <code class="code">0</code> on success or <code class="code">-1</code> on failure, with the
+following errno:
+</p>
+<dl class="table">
+<dt><code class="code">EFAULT</code></dt>
+<dd><p><code class="code">time</code> points to non accessible memory.
+</p>
+</dd>
+<dt><code class="code">EINVAL</code></dt>
+<dd><p>One of the passed values is not valid.
+</p></dd>
+</dl>
+
+</div>
+
+
+
+</body>
+</html>

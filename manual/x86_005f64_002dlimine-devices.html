@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>x86_64-limine devices (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="x86_64-limine devices (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="x86_64-limine devices (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Devices-and-their-properties.html" rel="up" title="Devices and their properties">
+<link href="riscv64_002dlimine-devices.html" rel="prev" title="riscv64-limine devices">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="x86_005f64_002dlimine-devices">
+<div class="nav-panel">
+<p>
+Previous: <a href="riscv64_002dlimine-devices.html" accesskey="p" rel="prev">riscv64-limine devices</a>, Up: <a href="Devices-and-their-properties.html" accesskey="u" rel="up">Devices and their properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="x86_005f64_002dlimine-devices-1"><span>13.3 x86_64-limine devices<a class="copiable-link" href="#x86_005f64_002dlimine-devices-1"> &para;</a></span></h3>
+
+<ul class="mini-toc">
+<li><a href="#ata" accesskey="1">ata</a></li>
+<li><a href="#fb0" accesskey="2">fb0</a></li>
+<li><a href="#i6300esb" accesskey="3">i6300esb</a></li>
+<li><a href="#lpt" accesskey="4">lpt</a></li>
+<li><a href="#pcspeaker" accesskey="5">pcspeaker</a></li>
+<li><a href="#ps2keyboard_002fps2mouse" accesskey="6">ps2keyboard/ps2mouse</a></li>
+<li><a href="#sata" accesskey="7">sata</a></li>
+<li><a href="#serial" accesskey="8">serial</a></li>
+</ul>
+<div class="subsection-level-extent" id="ata">
+<h4 class="subsection"><span>13.3.1 ata<a class="copiable-link" href="#ata"> &para;</a></span></h4>
+
+<p>The devices starting by <code class="code">sata</code> represent several ATA IDE block devices.
+These ATA drives have internal caching at the driver level, so they must be
+<code class="code">sync</code>&rsquo;d for data integrity when wanting to ensure data coherency.
+</p>
+<p>No special <code class="code">ioctl</code> calls are supported.
+</p>
+</div>
+<div class="subsection-level-extent" id="fb0">
+<h4 class="subsection"><span>13.3.2 fb0<a class="copiable-link" href="#fb0"> &para;</a></span></h4>
+
+<p>The <code class="code">fb0</code> device exposes the framebuffer passed as part of the boot
+protocol, when present. The device uses Linux&rsquo;s <a class="url" href="https://docs.kernel.org/fb/api.html">fbdev</a> interface.
+</p>
+</div>
+<div class="subsection-level-extent" id="i6300esb">
+<h4 class="subsection"><span>13.3.3 i6300esb<a class="copiable-link" href="#i6300esb"> &para;</a></span></h4>
+
+<p><code class="code">i6300esb</code> is a hardware watchdog featured in a lot of intel hardware, it
+can be reset by using <code class="code">write</code> and can be configured using
+<code class="code">ioctl</code> like:
+</p>
+<div class="example user-c">
+<pre class="example-preformatted">WDOG_START     <span style="color:#000000">=</span> <span style="color:#b07e00">1</span> <span style="color:#838183; font-style:italic">// Start the count.</span>
+WDOG_STOP      <span style="color:#000000">=</span> <span style="color:#b07e00">2</span> <span style="color:#838183; font-style:italic">// Stop the count.</span>
+WDOG_HEARTBEAT <span style="color:#000000">=</span> <span style="color:#b07e00">3</span> <span style="color:#838183; font-style:italic">// Reset and set a new heartbeat period in seconds.</span>
+
+<span style="color:#010181">ioctl</span><span style="color:#000000">(</span>wdog<span style="color:#000000">,</span> WDOG_START<span style="color:#000000">,</span> ignored<span style="color:#000000">);</span> <span style="color:#838183; font-style:italic">// Enable 2:1 scaling.</span>
+<span style="color:#010181">ioctl</span><span style="color:#000000">(</span>wdog<span style="color:#000000">,</span> WDOG_STOP<span style="color:#000000">,</span>  ignored<span style="color:#000000">);</span> <span style="color:#838183; font-style:italic">// Enable 1:1 scaling.</span>
+<span style="color:#010181">ioctl</span><span style="color:#000000">(</span>wdog<span style="color:#000000">,</span> WDOG_HEARTBEAT<span style="color:#000000">,</span> pointer_to_uint32_t<span style="color:#000000">);</span>
+</pre></div>
+
+<p>There is no default heartbeat count, so be sure to configure it if you do not
+want mayhem. Access to reset and configuration can be restricted by using
+MAC.
+</p>
+<p>While this piece of hardware allows for hooking up interrupts and reboot
+separately when the timer expires, Ironclad right now will only reboot when
+the timer expires.
+</p>
+</div>
+<div class="subsection-level-extent" id="lpt">
+<h4 class="subsection"><span>13.3.4 lpt<a class="copiable-link" href="#lpt"> &para;</a></span></h4>
+
+<p>The devices starting by <code class="code">lpt</code> represent the several character devices
+representing the system&rsquo;s parallel ports. They support write operations, but no
+TTY interface is exposed, they are raw byte streams.
+</p>
+</div>
+<div class="subsection-level-extent" id="pcspeaker">
+<h4 class="subsection"><span>13.3.5 pcspeaker<a class="copiable-link" href="#pcspeaker"> &para;</a></span></h4>
+
+<p><code class="code">pcspeaker</code> represents the IBM PC speaker, it is interfaced with using
+<code class="code">ioctl</code>, as such:
+</p>
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#010181">ioctl</span><span style="color:#000000">(</span>fd<span style="color:#000000">,</span> ignored<span style="color:#000000">,</span> pointer_to_uint32_t_frequency_in_hz<span style="color:#000000">);</span>
+</pre></div>
+
+</div>
+<div class="subsection-level-extent" id="ps2keyboard_002fps2mouse">
+<h4 class="subsection"><span>13.3.6 ps2keyboard/ps2mouse<a class="copiable-link" href="#ps2keyboard_002fps2mouse"> &para;</a></span></h4>
+
+<p>The devices <code class="code">ps2keyboard</code> and <code class="code">ps2mouse</code> exposes x86&rsquo;s native PS2
+interfaces, <code class="code">ps2keyboard</code> is a normal character device that returns
+scancodes as they are received. <code class="code">ps2mouse</code> is a character device that
+returns mouse packets following the structure:
+</p>
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">struct</span> mouse_data <span style="color:#000000">{</span>
+   <span style="color:#0057ae">int</span> x_variation<span style="color:#000000">;</span>
+   <span style="color:#0057ae">int</span> y_variation<span style="color:#000000">;</span>
+   <span style="color:#0057ae">int</span> z_variation<span style="color:#000000">;</span>
+   <span style="color:#0057ae">bool</span> is_left_click<span style="color:#000000">;</span>
+   <span style="color:#0057ae">bool</span> is_right_click<span style="color:#000000">;</span>
+   <span style="color:#0057ae">bool</span> is_middle_clock<span style="color:#000000">;</span>
+   <span style="color:#0057ae">bool</span> is_4th_click<span style="color:#000000">;</span>
+   <span style="color:#0057ae">bool</span> is_5th_click<span style="color:#000000">;</span>
+<span style="color:#000000">};</span>
+</pre></div>
+
+<p><code class="code">ps2mouse</code> supports a series of <code class="code">ioctl</code> calls for setting different
+modes and talking directly with the PS2 controller:
+</p>
+<div class="example user-c">
+<pre class="example-preformatted">PS2MOUSE_2_1_SCALING     <span style="color:#000000">=</span> <span style="color:#b07e00">1</span>
+PS2MOUSE_1_1_SCALING     <span style="color:#000000">=</span> <span style="color:#b07e00">2</span>
+PS2MOUSE_SET_RES         <span style="color:#000000">=</span> <span style="color:#b07e00">3</span>
+PS2MOUSE_SET_SAMPLE_RATE <span style="color:#000000">=</span> <span style="color:#b07e00">4</span>
+
+<span style="color:#010181">ioctl</span><span style="color:#000000">(</span>mouse<span style="color:#000000">,</span> PS2MOUSE_2_1_SCALING<span style="color:#000000">,</span> ignored<span style="color:#000000">);</span>  <span style="color:#838183; font-style:italic">// Enable 2:1 scaling.</span>
+<span style="color:#010181">ioctl</span><span style="color:#000000">(</span>mouse<span style="color:#000000">,</span> PS2MOUSE_1_1_SCALING<span style="color:#000000">,</span> ignored<span style="color:#000000">);</span>  <span style="color:#838183; font-style:italic">// Enable 1:1 scaling.</span>
+<span style="color:#010181">ioctl</span><span style="color:#000000">(</span>mouse<span style="color:#000000">,</span> PS2MOUSE_SET_RES<span style="color:#000000">,</span> resolution<span style="color:#000000">);</span>   <span style="color:#838183; font-style:italic">// (0 - 3).</span>
+<span style="color:#010181">ioctl</span><span style="color:#000000">(</span>mouse<span style="color:#000000">,</span> PS2MOUSE_SET_SAMPLE_RATE<span style="color:#000000">,</span> rate<span style="color:#000000">);</span> <span style="color:#838183; font-style:italic">// (0 - 200).</span>
+</pre></div>
+
+<p>Valid resolutions and sample rates are values for the PS2 controller, else
+the call is ignored. For valid values and their meaning refer to
+<a class="uref" href="https://isdaman.com/alsos/hardware/mouse/ps2interface.htm">this website</a>.
+</p>
+</div>
+<div class="subsection-level-extent" id="sata">
+<h4 class="subsection"><span>13.3.7 sata<a class="copiable-link" href="#sata"> &para;</a></span></h4>
+
+<p>The devices starting by <code class="code">sata</code> represent several SATA AHCI block devices.
+For now only SATA drives are supported, support for ATAPI is not present.
+</p>
+<p>These SATA drives have internal caching at the driver level, so they must be
+<code class="code">sync</code>&rsquo;d for data integrity when wanting to ensure data coherency.
+</p>
+</div>
+<div class="subsection-level-extent" id="serial">
+<h4 class="subsection"><span>13.3.8 serial<a class="copiable-link" href="#serial"> &para;</a></span></h4>
+
+<p>The devices starting by <code class="code">serial</code> represent the several character devices
+used for each present serial port, they support read/write operations, but no
+TTY interface is exposed, they are raw byte streams.
+</p>
+<p>Baud and other settings can be set by using the <code class="code">termios</code>, note that
+most of the fields are not implemented as the serial devices are not ttys but
+just byte streams.
+</p>
+<p>The default baud for all ports is set to be <code class="code">115200</code>.
+</p>
+</div>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Previous: <a href="riscv64_002dlimine-devices.html">riscv64-limine devices</a>, Up: <a href="Devices-and-their-properties.html">Devices and their properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

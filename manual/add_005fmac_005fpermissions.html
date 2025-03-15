@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>add_mac_permissions (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="add_mac_permissions (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="add_mac_permissions (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="set_005fmac_005fenforcement.html" rel="next" title="set_mac_enforcement">
+<link href="mac_005fcapabilities.html" rel="prev" title="mac_capabilities">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="add_005fmac_005fpermissions">
+<div class="nav-panel">
+<p>
+Next: <a href="set_005fmac_005fenforcement.html" accesskey="n" rel="next">set_mac_enforcement</a>, Previous: <a href="mac_005fcapabilities.html" accesskey="p" rel="prev">mac_capabilities</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="add_005fmac_005fpermissions-1"><span>9.33 add_mac_permissions<a class="copiable-link" href="#add_005fmac_005fpermissions-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define MAC_PERM_CONTENTS 0b000001</span>
+<span style="color:#008200">#define MAC_PERM_READ     0b000010</span>
+<span style="color:#008200">#define MAC_PERM_WRITE    0b000100</span>
+<span style="color:#008200">#define MAC_PERM_EXEC     0b001000</span>
+<span style="color:#008200">#define MAC_PERM_APPEND   0b010000</span>
+<span style="color:#008200">#define MAC_PERM_FLOCK    0b100000</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">add_mac_permissions</span><span style="color:#000000">(</span><span style="color:#0057ae">const char</span> <span style="color:#000000">*</span>path<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> flags<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall adds permissions to access an inode or device as described in
+<a class="ref" href="Mandatory-access-control-_0028MAC_0029.html">Mandatory access control (MAC)</a>.
+</p>
+<p>The syscall returns <code class="code">0</code> on success or <code class="code">-1</code> on failure, with the
+following errno:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EPERM</code>: MAC did not allow this.
+</li><li><code class="code">EFAULT</code>: The passed pointer does not point to valid memory.
+</li><li><code class="code">EAGAIN</code>: The system has reached a limit on registered rules.
+</li><li><code class="code">EINVAL</code>: The passed rule is already covered or conflicts with an existent
+one.
+</li></ul>
+
+</div>
+
+
+
+</body>
+</html>

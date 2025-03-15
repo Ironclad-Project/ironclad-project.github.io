@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Top (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="Top (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="Top (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="#Top" rel="start" title="Top">
+<link href="#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Installation-and-target-support.html" rel="next" title="Installation and target support">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+ul.toc-numbered-mark {list-style: none}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+
+
+
+<div class="top-level-extent" id="Top">
+<div class="nav-panel">
+<p>
+Next: <a href="Installation-and-target-support.html" accesskey="n" rel="next">Installation and target support</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h1 class="top" id="Ironclad-User_0027s-Guide"><span>Ironclad User&rsquo;s Guide<a class="copiable-link" href="#Ironclad-User_0027s-Guide"> &para;</a></span></h1>
+
+<p>This manual documents usage of Ironclad, interfaces and devices it exposes to
+userland, and discusses kernel internals, without having to navigate the often
+cryptic and scary Ada code.
+</p>
+<p>Copyright &copy; 2024 streaksu
+</p>
+<blockquote class="quotation">
+<p>Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled &ldquo;GNU Free
+Documentation License&rdquo;.
+</p></blockquote>
+
+
+<div class="element-contents" id="SEC_Contents">
+<h2 class="contents-heading">Table of Contents</h2>
+
+<div class="contents">
+
+<ul class="toc-numbered-mark">
+  <li><a id="toc-Installation-and-target-support-1" href="Installation-and-target-support.html">1 Installation and target support</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-riscv64_002dlimine-support-1" href="riscv64_002dlimine-support.html">1.1 riscv64-limine support</a></li>
+    <li><a id="toc-x86_005f64_002dlimine-support-1" href="x86_005f64_002dlimine-support.html">1.2 x86_64-limine support</a></li>
+  </ul></li>
+  <li><a id="toc-Boot_002dtime-command_002dline-options-1" href="Boot_002dtime-command_002dline-options.html">2 Boot-time command-line options</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Format-1" href="Format.html">2.1 Format</a></li>
+    <li><a id="toc-List-1" href="List.html">2.2 List</a></li>
+  </ul></li>
+  <li><a id="toc-Scheduling-and-RTC-1" href="Scheduling-and-RTC.html">3 Scheduling and RTC</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Ticks-and-other-interruptions-1" href="Ticks-and-other-interruptions.html">3.1 Ticks and other interruptions</a></li>
+    <li><a id="toc-Scheduling-basics-1" href="Scheduling-basics.html">3.2 Scheduling basics</a></li>
+    <li><a id="toc-Thread-clustering-management-1" href="Thread-clustering-management.html">3.3 Thread clustering management</a></li>
+  </ul></li>
+  <li><a id="toc-Inter_002dprocess-communication-1" href="Inter_002dprocess-communication.html">4 Inter-process communication</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Pipes-1" href="Pipes.html">4.1 Pipes</a></li>
+    <li><a id="toc-Futexes-1" href="Futexes.html">4.2 Futexes</a></li>
+    <li><a id="toc-PTYs-1" href="PTYs.html">4.3 PTYs</a></li>
+    <li><a id="toc-Signals-1" href="Signals.html">4.4 Signals</a></li>
+    <li><a id="toc-Sockets-1" href="Sockets.html">4.5 Sockets</a></li>
+  </ul></li>
+  <li><a id="toc-Memory-architecture-1" href="Memory-architecture.html">5 Memory architecture</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Physical-memory-allocation-1" href="Physical-memory-allocation.html">5.1 Physical memory allocation</a></li>
+    <li><a id="toc-Virtual-memory-1" href="Virtual-memory.html">5.2 Virtual memory</a></li>
+    <li><a id="toc-Memory-failures-1" href="Memory-failures.html">5.3 Memory failures</a></li>
+  </ul></li>
+  <li><a id="toc-Userland-state-and-conditions-1" href="Userland-state-and-conditions.html">6 Userland state and conditions</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Program-loading-1" href="Program-loading.html">6.1 Program loading</a></li>
+    <li><a id="toc-Memory-layout-1" href="Memory-layout.html">6.2 Memory layout</a></li>
+  </ul></li>
+  <li><a id="toc-Security-and-integrity-facilities-1" href="Security-and-integrity-facilities.html">7 Security and integrity facilities</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Users-and-groups-1" href="Users-and-groups.html">7.1 Users and groups</a></li>
+    <li><a id="toc-Mandatory-access-control-_0028MAC_0029-1" href="Mandatory-access-control-_0028MAC_0029.html">7.2 Mandatory access control (MAC)</a></li>
+    <li><a id="toc-Resource-limits-1" href="Resource-limits.html">7.3 Resource limits</a></li>
+    <li><a id="toc-Miscellaneous-measures-1" href="Miscellaneous-measures.html">7.4 Miscellaneous measures</a>
+    <ul class="toc-numbered-mark">
+      <li><a id="toc-W_005eX" href="Miscellaneous-measures.html#W_005eX">7.4.1 W^X</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a id="toc-Debugging-facilities-1" href="Debugging-facilities.html">8 Debugging facilities</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Corefile-and-process-dumping-1" href="Corefile-and-process-dumping.html">8.1 Corefile and process dumping</a></li>
+    <li><a id="toc-Program-tracing-1" href="Program-tracing.html">8.2 Program tracing</a></li>
+    <li><a id="toc-Kernel-Address-SANitizer-_0028KASAN_0029-1" href="Kernel-Address-SANitizer-_0028KASAN_0029.html">8.3 Kernel Address SANitizer (KASAN)</a></li>
+  </ul></li>
+  <li><a id="toc-Syscalls-1" href="Syscalls.html">9 Syscalls</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Table-and-target-quirks-1" href="Table-and-target-quirks.html">9.1 Table and target quirks</a>
+    <ul class="toc-numbered-mark">
+      <li><a id="toc-riscv64_002dlimine" href="Table-and-target-quirks.html#riscv64_002dlimine">9.1.1 riscv64-limine</a></li>
+      <li><a id="toc-x86_005f64_002dlimine" href="Table-and-target-quirks.html#x86_005f64_002dlimine">9.1.2 x86_64-limine</a></li>
+    </ul></li>
+    <li><a id="toc-Errno-1" href="Errno.html">9.2 Errno</a></li>
+    <li><a id="toc-exit-1" href="exit.html">9.3 exit</a></li>
+    <li><a id="toc-arch_005fprctl-1" href="arch_005fprctl.html">9.4 arch_prctl</a></li>
+    <li><a id="toc-open-1" href="open.html">9.5 open</a></li>
+    <li><a id="toc-close-1" href="close.html">9.6 close</a></li>
+    <li><a id="toc-read_002fwrite-1" href="read_002fwrite.html">9.7 read/write</a></li>
+    <li><a id="toc-seek-1" href="seek.html">9.8 seek</a></li>
+    <li><a id="toc-mmap_002fmprotect_002fmunmap-1" href="mmap_002fmprotect_002fmunmap.html">9.9 mmap/mprotect/munmap</a></li>
+    <li><a id="toc-getpid_002fgetppid-1" href="getpid_002fgetppid.html">9.10 getpid/getppid</a></li>
+    <li><a id="toc-exec-1" href="exec.html">9.11 exec</a></li>
+    <li><a id="toc-fork-1" href="fork.html">9.12 fork</a></li>
+    <li><a id="toc-wait-1" href="wait.html">9.13 wait</a></li>
+    <li><a id="toc-socket-1" href="socket.html">9.14 socket</a></li>
+    <li><a id="toc-sethostname-1" href="sethostname.html">9.15 sethostname</a></li>
+    <li><a id="toc-unlink-1" href="unlink.html">9.16 unlink</a></li>
+    <li><a id="toc-fstat-1" href="fstat.html">9.17 fstat</a></li>
+    <li><a id="toc-pivot_005froot-1" href="pivot_005froot.html">9.18 pivot_root</a></li>
+    <li><a id="toc-chdir-1" href="chdir.html">9.19 chdir</a></li>
+    <li><a id="toc-ioctl-1" href="ioctl.html">9.20 ioctl</a></li>
+    <li><a id="toc-sched_005fyield-1" href="sched_005fyield.html">9.21 sched_yield</a></li>
+    <li><a id="toc-delete_005ftcluster-1" href="delete_005ftcluster.html">9.22 delete_tcluster</a></li>
+    <li><a id="toc-pipe-1" href="pipe.html">9.23 pipe</a></li>
+    <li><a id="toc-rename-1" href="rename.html">9.24 rename</a></li>
+    <li><a id="toc-sysconf-1" href="sysconf.html">9.25 sysconf</a></li>
+    <li><a id="toc-spawn-1" href="spawn.html">9.26 spawn</a></li>
+    <li><a id="toc-gettid-1" href="gettid.html">9.27 gettid</a></li>
+    <li><a id="toc-manage_005ftcluster-1" href="manage_005ftcluster.html">9.28 manage_tcluster</a></li>
+    <li><a id="toc-fcntl-1" href="fcntl.html">9.29 fcntl</a></li>
+    <li><a id="toc-exit_005fthread-1" href="exit_005fthread.html">9.30 exit_thread</a></li>
+    <li><a id="toc-getrandom-1" href="getrandom.html">9.31 getrandom</a></li>
+    <li><a id="toc-mac_005fcapabilities-1" href="mac_005fcapabilities.html">9.32 mac_capabilities</a></li>
+    <li><a id="toc-add_005fmac_005fpermissions-1" href="add_005fmac_005fpermissions.html">9.33 add_mac_permissions</a></li>
+    <li><a id="toc-set_005fmac_005fenforcement-1" href="set_005fmac_005fenforcement.html">9.34 set_mac_enforcement</a></li>
+    <li><a id="toc-mount_002fumount-1" href="mount_002fumount.html">9.35 mount/umount</a></li>
+    <li><a id="toc-readlink-1" href="readlink.html">9.36 readlink</a></li>
+    <li><a id="toc-getdents-1" href="getdents.html">9.37 getdents</a></li>
+    <li><a id="toc-sync-1" href="sync.html">9.38 sync</a></li>
+    <li><a id="toc-mknod-1" href="mknod.html">9.39 mknod</a></li>
+    <li><a id="toc-truncate-1" href="truncate.html">9.40 truncate</a></li>
+    <li><a id="toc-bind-1" href="bind.html">9.41 bind</a></li>
+    <li><a id="toc-mkdir-1" href="mkdir.html">9.42 mkdir</a></li>
+    <li><a id="toc-symlink-1" href="symlink.html">9.43 symlink</a></li>
+    <li><a id="toc-connect-1" href="connect.html">9.44 connect</a></li>
+    <li><a id="toc-openpty-1" href="openpty.html">9.45 openpty</a></li>
+    <li><a id="toc-fsync-1" href="fsync.html">9.46 fsync</a></li>
+    <li><a id="toc-link-1" href="link.html">9.47 link</a></li>
+    <li><a id="toc-ptrace-1" href="ptrace.html">9.48 ptrace</a></li>
+    <li><a id="toc-listen-1" href="listen.html">9.49 listen</a></li>
+    <li><a id="toc-accept-1" href="accept.html">9.50 accept</a></li>
+    <li><a id="toc-getrlimit_002fsetrlimit-1" href="getrlimit_002fsetrlimit.html">9.51 getrlimit/setrlimit</a></li>
+    <li><a id="toc-access-1" href="access.html">9.52 access</a></li>
+    <li><a id="toc-ppoll-1" href="ppoll.html">9.53 ppoll</a></li>
+    <li><a id="toc-getuid_002fgeteuid-1" href="getuid_002fgeteuid.html">9.54 getuid/geteuid</a></li>
+    <li><a id="toc-setuids-1" href="setuids.html">9.55 setuids</a></li>
+    <li><a id="toc-fchmod-1" href="fchmod.html">9.56 fchmod</a></li>
+    <li><a id="toc-umask-1" href="umask.html">9.57 umask</a></li>
+    <li><a id="toc-reboot-1" href="reboot.html">9.58 reboot</a></li>
+    <li><a id="toc-fchown-1" href="fchown.html">9.59 fchown</a></li>
+    <li><a id="toc-pread_002fpwrite-1" href="pread_002fpwrite.html">9.60 pread/pwrite</a></li>
+    <li><a id="toc-getsockname-1" href="getsockname.html">9.61 getsockname</a></li>
+    <li><a id="toc-getpeername-1" href="getpeername.html">9.62 getpeername</a></li>
+    <li><a id="toc-shutdown-1" href="shutdown.html">9.63 shutdown</a></li>
+    <li><a id="toc-futex-1" href="futex.html">9.64 futex</a></li>
+    <li><a id="toc-clock-1" href="clock.html">9.65 clock</a></li>
+    <li><a id="toc-clock_005fnanosleep-1" href="clock_005fnanosleep.html">9.66 clock_nanosleep</a></li>
+    <li><a id="toc-getrusage-1" href="getrusage.html">9.67 getrusage</a></li>
+    <li><a id="toc-recvfrom_002fsendto-1" href="recvfrom_002fsendto.html">9.68 recvfrom/sendto</a></li>
+    <li><a id="toc-config_005fnetinter-1" href="config_005fnetinter.html">9.69 config_netinter</a></li>
+    <li><a id="toc-utimes-1" href="utimes.html">9.70 utimes</a></li>
+    <li><a id="toc-create_005ftcluster-1" href="create_005ftcluster.html">9.71 create_tcluster</a></li>
+    <li><a id="toc-switch_005ftcluster-1" href="switch_005ftcluster.html">9.72 switch_tcluster</a></li>
+    <li><a id="toc-sigprogmask-1" href="sigprogmask.html">9.73 sigprogmask</a></li>
+    <li><a id="toc-sigaction-1" href="sigaction.html">9.74 sigaction</a></li>
+    <li><a id="toc-send_005fsignal-1" href="send_005fsignal.html">9.75 send_signal</a></li>
+    <li><a id="toc-getprio_002fsetprio-1" href="getprio_002fsetprio.html">9.76 getprio/setprio</a></li>
+    <li><a id="toc-getgid_002fgetegid-1" href="getgid_002fgetegid.html">9.77 getgid/getegid</a></li>
+    <li><a id="toc-setgids-1" href="setgids.html">9.78 setgids</a></li>
+    <li><a id="toc-getgroups_002fsetgroups-1" href="getgroups_002fsetgroups.html">9.79 getgroups/setgroups</a></li>
+    <li><a id="toc-ttyname-1" href="ttyname.html">9.80 ttyname</a></li>
+    <li><a id="toc-fadvise-1" href="fadvise.html">9.81 fadvise</a></li>
+    <li><a id="toc-shmat-1" href="shmat.html">9.82 shmat</a></li>
+    <li><a id="toc-shmctl-1" href="shmctl.html">9.83 shmctl</a></li>
+    <li><a id="toc-shmdl-1" href="shmdl.html">9.84 shmdl</a></li>
+    <li><a id="toc-shmget-1" href="shmget.html">9.85 shmget</a></li>
+    <li><a id="toc-getsockopt_002fsetsockopt-1" href="getsockopt_002fsetsockopt.html">9.86 getsockopt/setsockopt</a></li>
+    <li><a id="toc-gettidid_002fsettidid-1" href="gettidid_002fsettidid.html">9.87 gettidid/settidid</a></li>
+    <li><a id="toc-failure_005fpolicy-1" href="failure_005fpolicy.html">9.88 failure_policy</a></li>
+    <li><a id="toc-create_005fthread-1" href="create_005fthread.html">9.89 create_thread</a></li>
+  </ul></li>
+  <li><a id="toc-Filesystem-support-and-interfaces-1" href="Filesystem-support-and-interfaces.html">10 Filesystem support and interfaces</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Generic-filesystem-options-1" href="Generic-filesystem-options.html">10.1 Generic filesystem options</a>
+    <ul class="toc-numbered-mark">
+      <li><a id="toc-relatime-and-noatime" href="Generic-filesystem-options.html#relatime-and-noatime">10.1.1 <code class="code">relatime</code> and <code class="code">noatime</code></a></li>
+    </ul></li>
+    <li><a id="toc-EXTended-filesystem-_0028EXT_0029-1" href="EXTended-filesystem-_0028EXT_0029.html">10.2 EXTended filesystem (EXT)</a>
+    <ul class="toc-numbered-mark">
+      <li><a id="toc-Ironclad-support-quirks" href="EXTended-filesystem-_0028EXT_0029.html#Ironclad-support-quirks">10.2.1 Ironclad support quirks</a></li>
+    </ul></li>
+    <li><a id="toc-File-Allocation-Table-_0028FAT_0029-1" href="File-Allocation-Table-_0028FAT_0029.html">10.3 File Allocation Table (FAT)</a></li>
+  </ul></li>
+  <li><a id="toc-Networking-1" href="Networking.html">11 Networking</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Layering-1" href="Layering.html">11.1 Layering</a></li>
+    <li><a id="toc-Interface-handling-1" href="Interface-handling.html">11.2 Interface handling</a></li>
+    <li><a id="toc-Loopback-1" href="Loopback.html">11.3 Loopback</a></li>
+  </ul></li>
+  <li><a id="toc-Virtualization-1" href="Virtualization.html">12 Virtualization</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-The-Kernel-Virtual-Machine-_0028KVM_0029-1" href="The-Kernel-Virtual-Machine-_0028KVM_0029.html">12.1 The Kernel Virtual Machine (KVM)</a></li>
+    <li><a id="toc-Differences-between-Linux-and-Ironclad-1" href="Differences-between-Linux-and-Ironclad.html">12.2 Differences between Linux and Ironclad</a></li>
+  </ul></li>
+  <li><a id="toc-Devices-and-their-properties-1" href="Devices-and-their-properties.html">13 Devices and their properties</a>
+  <ul class="toc-numbered-mark">
+    <li><a id="toc-Common-devices-1" href="Common-devices.html">13.1 Common devices</a>
+    <ul class="toc-numbered-mark">
+      <li><a id="toc-console" href="Common-devices.html#console">13.1.1 console</a></li>
+      <li><a id="toc-loopback" href="Common-devices.html#loopback">13.1.2 loopback</a></li>
+      <li><a id="toc-ramdev" href="Common-devices.html#ramdev">13.1.3 ramdev</a></li>
+      <li><a id="toc-random_002furandom_002fhwrng" href="Common-devices.html#random_002furandom_002fhwrng">13.1.4 random/urandom/hwrng</a></li>
+      <li><a id="toc-null_002fzero" href="Common-devices.html#null_002fzero">13.1.5 null/zero</a></li>
+    </ul></li>
+    <li><a id="toc-riscv64_002dlimine-devices-1" href="riscv64_002dlimine-devices.html">13.2 riscv64-limine devices</a></li>
+    <li><a id="toc-x86_005f64_002dlimine-devices-1" href="x86_005f64_002dlimine-devices.html">13.3 x86_64-limine devices</a>
+    <ul class="toc-numbered-mark">
+      <li><a id="toc-ata" href="x86_005f64_002dlimine-devices.html#ata">13.3.1 ata</a></li>
+      <li><a id="toc-fb0" href="x86_005f64_002dlimine-devices.html#fb0">13.3.2 fb0</a></li>
+      <li><a id="toc-i6300esb" href="x86_005f64_002dlimine-devices.html#i6300esb">13.3.3 i6300esb</a></li>
+      <li><a id="toc-lpt" href="x86_005f64_002dlimine-devices.html#lpt">13.3.4 lpt</a></li>
+      <li><a id="toc-pcspeaker" href="x86_005f64_002dlimine-devices.html#pcspeaker">13.3.5 pcspeaker</a></li>
+      <li><a id="toc-ps2keyboard_002fps2mouse" href="x86_005f64_002dlimine-devices.html#ps2keyboard_002fps2mouse">13.3.6 ps2keyboard/ps2mouse</a></li>
+      <li><a id="toc-sata" href="x86_005f64_002dlimine-devices.html#sata">13.3.7 sata</a></li>
+      <li><a id="toc-serial" href="x86_005f64_002dlimine-devices.html#serial">13.3.8 serial</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a id="toc-GNU-Free-Documentation-License-1" href="GNU-Free-Documentation-License.html">Appendix A GNU Free Documentation License</a></li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Installation-and-target-support.html" accesskey="n" rel="next">Installation and target support</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

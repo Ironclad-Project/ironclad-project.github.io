@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>arch_prctl (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="arch_prctl (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="arch_prctl (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="open.html" rel="next" title="open">
+<link href="exit.html" rel="prev" title="exit">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="arch_005fprctl">
+<div class="nav-panel">
+<p>
+Next: <a href="open.html" accesskey="n" rel="next">open</a>, Previous: <a href="exit.html" accesskey="p" rel="prev">exit</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="arch_005fprctl-1"><span>9.4 arch_prctl<a class="copiable-link" href="#arch_005fprctl-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">int</span> <span style="color:#010181">arch_prctl</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> code<span style="color:#000000">,</span> <span style="color:#0057ae">uint64_t</span> argument<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall interacts with architecture-specific thread-local storage. For
+x86_64, these are the available codes:
+</p>
+<dl class="table">
+<dt><code class="code">ARCH_SET_FS (1)</code></dt>
+<dd><p>Sets <code class="code">argument</code> as the current thread&rsquo;s FS.
+</p>
+</dd>
+<dt><code class="code">ARCH_GET_FS (2)</code></dt>
+<dd><p>Stores the current thread&rsquo;s FS into the variable pointed to by <code class="code">argument</code>.
+</p>
+</dd>
+<dt><code class="code">ARCH_SET_GS (3)</code></dt>
+<dd><p>Sets <code class="code">argument</code> as the current thread&rsquo;s FS.
+</p>
+</dd>
+<dt><code class="code">ARCH_GET_GS (4)</code></dt>
+<dd><p>Stores the current thread&rsquo;s GS into the variable pointed to by <code class="code">argument</code>.
+</p></dd>
+</dl>
+
+<p>This syscall returns <code class="code">0</code> on success, and <code class="code">-1</code> on failure.
+errno is to be set to the following values on failure:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EINVAL</code>: <code class="code">code</code> is not valid.
+
+</li><li><code class="code">EFAULT</code>: <code class="code">argument</code> is outside the available address space.
+</li></ul>
+
+</div>
+
+
+
+</body>
+</html>

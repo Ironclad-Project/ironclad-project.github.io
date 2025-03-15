@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>Mandatory access control (MAC) (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="Mandatory access control (MAC) (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="Mandatory access control (MAC) (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Security-and-integrity-facilities.html" rel="up" title="Security and integrity facilities">
+<link href="Resource-limits.html" rel="next" title="Resource limits">
+<link href="Users-and-groups.html" rel="prev" title="Users and groups">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Mandatory-access-control-_0028MAC_0029">
+<div class="nav-panel">
+<p>
+Next: <a href="Resource-limits.html" accesskey="n" rel="next">Resource limits</a>, Previous: <a href="Users-and-groups.html" accesskey="p" rel="prev">Users and groups</a>, Up: <a href="Security-and-integrity-facilities.html" accesskey="u" rel="up">Security and integrity facilities</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Mandatory-access-control-_0028MAC_0029-1"><span>7.2 Mandatory access control (MAC)<a class="copiable-link" href="#Mandatory-access-control-_0028MAC_0029-1"> &para;</a></span></h3>
+
+<p>Mandatory access control (MAC) is one of the main components of Ironclad&rsquo;s
+security. It does not necesarily help with preventing breaches, but, when
+configured correctly, it can help mitigate consequences to a massive degree.
+</p>
+<p>MAC in Ironclad consists on a series of settings inherited from parent process
+to children, these settings come in the form of capabilities and file filters.
+</p>
+<p>Capabilities are a set of coarse permissions that restrict a process on what it
+can and cannot do, only more restrictive capability escalations are allowed,
+they are configured using <a class="ref" href="mac_005fcapabilities.html">mac_capabilities</a>.
+</p>
+<p>The available capability list is:
+</p>
+<dl class="table">
+<dt><code class="code">MAC_CAP_SCHED</code></dt>
+<dd><p>The process will be allowed to change its own scheduling rules, like modifying
+deadlines.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_SPAWN</code></dt>
+<dd><p>The process will be allowed to spawn other processes and threads.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_ENTROPY</code></dt>
+<dd><p>The process will have unrestricted access to the sources of entropy of the
+kernel, this does not cover the UNIX-standard <code class="code">random/urandom</code>.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_SYS_MEM</code></dt>
+<dd><p>The process will be able to allocate and deallocate both private and shared
+memory regions.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_USE_NET</code></dt>
+<dd><p>The process will be able to use networking.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_SYS_NET</code></dt>
+<dd><p>The process will be able to modify networking, for things like hostname
+changing.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_SYS_MNT</code></dt>
+<dd><p>The process will be able to modify, add, and remove mountpoints.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_SYS_PWR</code></dt>
+<dd><p>The process will be able to modify power settings, along doing things like
+shutdown and reboot.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_PTRACE</code></dt>
+<dd><p>The process will be able to use ptrace on children processes.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_SETUID</code></dt>
+<dd><p>The process will be able to change its effective and global UIDs without
+checks.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_SYS_MAC</code></dt>
+<dd><p>The process will be able to add allowed inodes to the MAC definitions, along
+with modifying hard limits for system resources.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_CLOCK</code></dt>
+<dd><p>The process will be able to access clocks syscalls like <a class="ref" href="clock.html">clock</a> or
+<code class="code">clock_nanosleep</code>, as well as setting the time of clocks that can do so.
+This is provided as reading clock time can sometimes be used as a way to
+coordinate attacks.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_SIGNALALL</code></dt>
+<dd><p>Processes by default need to share the user with another one to either kill it
+or send a signal. This capability allows to send signals to all processes,
+regardless of the user issuing it.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_SETGID</code></dt>
+<dd><p>The process will be able to change its effective and global UIDs without
+checks.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_IPC</code></dt>
+<dd><p>The process will be able to bypass UID/GID and mode checks when interacting
+with SystemV-style IPC objects, like the ones you can create with <a class="ref" href="shmget.html">shmget</a>.
+</p>
+</dd>
+<dt><code class="code">MAC_CAP_SYS_LOG</code></dt>
+<dd><p>The process will be able to access system logs, like the kernel&rsquo;s dmesg.
+</p></dd>
+</dl>
+
+<p>File filters consist on permissions given to specific paths and files, that,
+just like capabilities, get inherited from parent to child processes.
+Access to inodes and devices can be granted using <a class="ref" href="add_005fmac_005fpermissions.html">add_mac_permissions</a>.
+</p>
+<p>The action to take on MAC violations can be set with <a class="ref" href="set_005fmac_005fenforcement.html">set_mac_enforcement</a>.
+Possible values include denying requests, killing the offending part outright,
+or denying and additionally logging the event.
+</p>
+<p>Once booted, MAC is enabled and gives full access to all capabilities, and
+offers full access to all inodes and devices. It is up to userland to further
+restrict access, and for those settings to trickle down to children processes.
+File access enforcement will kick in only once the first filter is added with
+<a class="ref" href="add_005fmac_005fpermissions.html">add_mac_permissions</a>.
+</p>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Resource-limits.html">Resource limits</a>, Previous: <a href="Users-and-groups.html">Users and groups</a>, Up: <a href="Security-and-integrity-facilities.html">Security and integrity facilities</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

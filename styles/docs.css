@@ -1,0 +1,123 @@
+@font-face {
+    /*
+     * Font is taken from https://github.com/RedHatOfficial/RedHatFont
+     * The font is distributed under the SIL Open Font License, 1.1, that
+     * allows us to redistribute in this way.
+     */
+    font-family: 'Red Hat Text';
+    src: url('../resources/RedHatText.ttf');
+}
+
+body {
+    max-width: 800px;
+    min-width: 800px;
+    margin:    auto;
+    left:      1%;
+    right:     1%;
+    position:  absolute;
+    font-family: 'Red Hat Text', sans-serif;
+}
+
+h1, h2, h3, h4 {
+    color: #726B68;
+}
+
+h1 {
+    font-weight: 800;
+    --s: 75px;
+    background: linear-gradient(135deg,#0000 18.75%,#DDD 0 31.25%,#0000 0),
+        repeating-linear-gradient(45deg,#DDD -6.25% 6.25%,#FFFFFF 0 18.75%);
+    background-size: var(--s) var(--s);
+}
+
+p {
+    color: #525252;
+}
+
+li {
+    color: #525252;
+}
+
+.linklist {
+    list-style: none;
+    padding-left: 0;
+}
+
+.buttonlist {
+    list-style: none;
+    padding-left: 0;
+    display: grid;
+    gap: 10px;
+}
+
+header {
+    width: 270px;
+    float: left;
+    position: fixed;
+}
+
+section {
+    width: 500px;
+    float: right;
+    padding-bottom: 50px
+}
+
+footer {
+    width: 270px;
+    float: left;
+    position: fixed;
+    bottom: 50px
+}
+
+img {
+    border-color: #726B68;
+}
+
+table {
+    width: 100%;
+    color: #525252;
+}
+
+td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+tr:nth-child(even) {
+   background: #CCC;
+}
+
+.rss-logo {
+    height: 0.75em;
+}
+
+.thanks-logo {
+    border-style: solid;
+    border-width: 1px;
+    height: 130px;
+}
+
+.download-button {
+    background-color: #CCC;
+    border-radius: 8px;
+    border-width: 0;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 10px 12px;
+    text-align: center;
+    transition: all 200ms;
+    vertical-align: baseline;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.chapter {
+    color: #726B68;
+}

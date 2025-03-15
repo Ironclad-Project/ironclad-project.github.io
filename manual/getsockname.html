@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>getsockname (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="getsockname (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="getsockname (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="getpeername.html" rel="next" title="getpeername">
+<link href="pread_002fpwrite.html" rel="prev" title="pread/pwrite">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="getsockname">
+<div class="nav-panel">
+<p>
+Next: <a href="getpeername.html" accesskey="n" rel="next">getpeername</a>, Previous: <a href="pread_002fpwrite.html" accesskey="p" rel="prev">pread/pwrite</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="getsockname-1"><span>9.61 getsockname<a class="copiable-link" href="#getsockname-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#0057ae">int</span> <span style="color:#010181">getsockname</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> sockfd<span style="color:#000000">,</span> <span style="color:#0057ae">struct</span> sockaddr <span style="color:#000000">*</span>restrict addr<span style="color:#000000">,</span> socklen_t <span style="color:#000000">*</span>restrict addrlen<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall fetches the address of an already bound socket.
+</p>
+<p>The syscall returns <code class="code">0</code> on success or <code class="code">-1</code> on failure, with the
+following errno:
+</p>
+<dl class="table">
+<dt><code class="code">EINVAL</code></dt>
+<dd><p>The passed FD was a non bound socket.
+</p>
+</dd>
+<dt><code class="code">EBADF</code></dt>
+<dd><p>The passed file is valid but it was not a physical file in a filesystem.
+</p></dd>
+</dl>
+
+</div>
+
+
+
+</body>
+</html>

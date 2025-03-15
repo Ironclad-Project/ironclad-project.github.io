@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>access (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="access (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="access (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="ppoll.html" rel="next" title="ppoll">
+<link href="getrlimit_002fsetrlimit.html" rel="prev" title="getrlimit/setrlimit">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="access">
+<div class="nav-panel">
+<p>
+Next: <a href="ppoll.html" accesskey="n" rel="next">ppoll</a>, Previous: <a href="getrlimit_002fsetrlimit.html" accesskey="p" rel="prev">getrlimit/setrlimit</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="access-1"><span>9.52 access<a class="copiable-link" href="#access-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define F_OK 0b0001</span>
+<span style="color:#008200">#define R_OK 0b0010</span>
+<span style="color:#008200">#define W_OK 0b0100</span>
+<span style="color:#008200">#define X_OK 0b1000</span>
+
+<span style="color:#008200">#define AT_EACCESS 512</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">access</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> dir_fd<span style="color:#000000">,</span> <span style="color:#0057ae">char</span> <span style="color:#000000">*</span>path<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> len<span style="color:#000000">,</span> mode_t mode<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> flags<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall whether the callee process can access the passed file against
+POSIX file permissions and Ironclad&rsquo;s MAC. What to check for is specified in
+<code class="code">mode</code> as an ORd list, as such:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">F_OK</code>: When passed, only file existance will be checked.
+</li><li><code class="code">R_OK</code>: When passed, read permissions will be checked.
+</li><li><code class="code">W_OK</code>: When passed, write permissions will be checked.
+</li><li><code class="code">X_OK</code>: When passed, execute permissions will be checked.
+</li></ul>
+
+<p>Permissions are checked with the real user and group IDs, instead of the
+effective ones, that behaviour can be changed by passing <code class="code">AT_EACCESS</code> in
+<code class="code">flags</code>, which can also be used for other common AT flags.
+<code class="code">AT_EMPTY_PATH</code> is not accepted because that does not make any sense with
+this syscall.
+</p>
+<p>The syscall returns <code class="code">0</code> on success when the passed mode is checked valid,
+or <code class="code">-1</code> on check failure, with the following errno:
+</p>
+<ul class="itemize mark-bullet">
+<li><code class="code">EBADF</code>: <code class="code">dirfd</code> is not valid.
+</li><li><code class="code">ENOENT</code>: The requested file does not exist.
+</li><li><code class="code">EACCES</code>: The access is not allowed.
+</li></ul>
+
+</div>
+
+
+
+</body>
+</html>

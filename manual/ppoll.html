@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>ppoll (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="ppoll (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="ppoll (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="getuid_002fgeteuid.html" rel="next" title="getuid/geteuid">
+<link href="access.html" rel="prev" title="access">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="ppoll">
+<div class="nav-panel">
+<p>
+Next: <a href="getuid_002fgeteuid.html" accesskey="n" rel="next">getuid/geteuid</a>, Previous: <a href="access.html" accesskey="p" rel="prev">access</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="ppoll-1"><span>9.53 ppoll<a class="copiable-link" href="#ppoll-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define POLLIN   0b00000001</span>
+<span style="color:#008200">#define POLLOUT  0b00000010</span>
+<span style="color:#008200">#define POLLPRI  0b00000100</span>
+<span style="color:#008200">#define POLLHUP  0b00001000</span>
+<span style="color:#008200">#define POLLERR  0b00010000</span>
+<span style="color:#008200">#define POLLNVAL 0b01000000</span>
+
+<span style="color:#0057ae">struct</span> pollfd <span style="color:#000000">{</span>
+   <span style="color:#0057ae">uint32_t</span> fd<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint16_t</span> events<span style="color:#000000">;</span>
+   <span style="color:#0057ae">uint16_t</span> revents<span style="color:#000000">;</span>
+<span style="color:#000000">};</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">poll</span><span style="color:#000000">(</span><span style="color:#0057ae">struct</span> pollfd <span style="color:#000000">*</span>fds<span style="color:#000000">,</span> nfds_t nfds<span style="color:#000000">,</span> <span style="color:#0057ae">struct</span> timespec <span style="color:#000000">*</span>timeout<span style="color:#000000">,</span>
+   <span style="color:#0057ae">const</span> sigset_t <span style="color:#000000">*</span>sigmask<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall allows to wait for a series of events to happen to the passed
+FDs, in a manner similar to POSIX&rsquo;s <code class="code">select</code>.
+</p>
+<p><code class="code">fds</code> is an array of <code class="code">nfds</code> length of <code class="code">pollfd</code> structures. Each
+structure represents one FD, for which <code class="code">events</code> is a list of events
+to wait for and <code class="code">revents</code> is a bitmap written by the kernel to indicate
+which events of the waited ones did happen. If the FD of an structure is
+negative, that is, it has the first bit set, it is ignored, and <code class="code">revents</code>
+is set to <code class="code">0</code>.
+</p>
+<p>If passed no FDs to ppoll, that is, with <code class="code">nfds == 0</code>, <code class="code">ppoll</code> will
+block for <code class="code">timeout</code> time. This is used by some software as a means to
+implement <code class="code">sleep</code> functionality, for those cases, <a class="ref" href="clock_005fnanosleep.html">clock_nanosleep</a>.
+</p>
+<p>If <code class="code">sigmask</code> is not <code class="code">NULL</code>, it will atomatically set the passed
+sigmask for waiting.
+</p>
+<p>Both <code class="code">events</code> and <code class="code">revents</code> are bitmaps of the values:
+</p>
+<dl class="table">
+<dt><code class="code">POLLIN</code></dt>
+<dd><p>The passed FD has data pending for reading.
+</p>
+</dd>
+<dt><code class="code">POLLOUT</code></dt>
+<dd><p>The passed FD will not block when written to.
+</p>
+</dd>
+<dt><code class="code">POLLPRI</code></dt>
+<dd><p>The passed FD has prioritary data for processing, this data depends on what is
+polled, some examples are a change of termios information on a PTY, or
+Out-Of-Band (OOB) data for a TCP socket.
+</p>
+</dd>
+<dt><code class="code">POLLERR</code></dt>
+<dd><p>Only for <code class="code">revents</code>, it is set when encountering an error waiting. This bit
+is also set for FDs referring to the write end of a pipe when the read end has
+been closed.
+</p>
+</dd>
+<dt><code class="code">POLLHUP</code></dt>
+<dd><p>Only for <code class="code">revents</code>, it is set in the case of the passed FD having lost
+connection, or the FD being the reader end of a broken pipe.
+</p>
+</dd>
+<dt><code class="code">POLLNVAL</code></dt>
+<dd><p>Only for <code class="code">revents</code>, equivalent of <code class="code">EBADFD</code>, that is, the passed FD
+is not valid.
+</p></dd>
+</dl>
+
+<p>The call will block until either a file descriptor gets an event, the call is
+interrupted by a signal handler, or the timeout expires.
+</p>
+<p>The syscall returns the number of FDs to have an event happen on success or
+<code class="code">-1</code> on failure, with the following errno:
+</p>
+<dl class="table">
+<dt><code class="code">EFAULT</code></dt>
+<dd><p>The passed pointers are not in addressable memory.
+</p>
+</dd>
+<dt><code class="code">EINVAL</code></dt>
+<dd><p>The passed values are not valid.
+</p></dd>
+</dl>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="getuid_002fgeteuid.html">getuid/geteuid</a>, Previous: <a href="access.html">access</a>, Up: <a href="Syscalls.html">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

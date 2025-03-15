@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.1.1, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- Copyright © 2024 streaksu
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License". -->
+<title>getsockopt/setsockopt (Ironclad User&rsquo;s Guide)</title>
+
+<meta name="description" content="getsockopt/setsockopt (Ironclad User&rsquo;s Guide)">
+<meta name="keywords" content="getsockopt/setsockopt (Ironclad User&rsquo;s Guide)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Syscalls.html" rel="up" title="Syscalls">
+<link href="gettidid_002fsettidid.html" rel="next" title="gettidid/settidid">
+<link href="shmget.html" rel="prev" title="shmget">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="../styles/docs.css">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="getsockopt_002fsetsockopt">
+<div class="nav-panel">
+<p>
+Next: <a href="gettidid_002fsettidid.html" accesskey="n" rel="next">gettidid/settidid</a>, Previous: <a href="shmget.html" accesskey="p" rel="prev">shmget</a>, Up: <a href="Syscalls.html" accesskey="u" rel="up">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="getsockopt_002fsetsockopt-1"><span>9.86 getsockopt/setsockopt<a class="copiable-link" href="#getsockopt_002fsetsockopt-1"> &para;</a></span></h3>
+
+<div class="example user-c">
+<pre class="example-preformatted"><span style="color:#008200">#define SOL_SOCKET 1</span>
+
+<span style="color:#008200">#define SO_ACCEPTCONN 1</span>
+<span style="color:#008200">#define SO_ERROR      5</span>
+<span style="color:#008200">#define SO_SNDBUF     13</span>
+<span style="color:#008200">#define SO_TYPE       16</span>
+
+<span style="color:#0057ae">int</span> <span style="color:#010181">getsockopt</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> fd<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> level<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> name<span style="color:#000000">,</span> <span style="color:#0057ae">void</span> <span style="color:#000000">*</span>val<span style="color:#000000">,</span> socklen_t <span style="color:#000000">*</span>len<span style="color:#000000">);</span>
+<span style="color:#0057ae">int</span> <span style="color:#010181">setsockopt</span><span style="color:#000000">(</span><span style="color:#0057ae">int</span> fd<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> level<span style="color:#000000">,</span> <span style="color:#0057ae">int</span> name<span style="color:#000000">,</span> <span style="color:#0057ae">void</span> <span style="color:#000000">*</span>val<span style="color:#000000">,</span> socklen_t len<span style="color:#000000">);</span>
+</pre></div>
+
+<p>This syscall gets or sets the option passed on <code class="code">name</code> for the socket level
+passed on <code class="code">level</code>, and writes or fetches data from <code class="code">val</code> with the
+length passed on <code class="code">len</code>.
+</p>
+<p>Right now, <code class="code">SOL_SOCKET</code> is the only supported socket level.
+</p>
+<p><code class="code">name</code> can be one of:
+</p>
+<dl class="table">
+<dt><code class="code">SO_ACCEPTCONN</code></dt>
+<dd><p><code class="code">val</code> will point to an <code class="code">uint32_t</code>. <code class="code">1</code> will be written there if
+the passed socket is listening, and <code class="code">0</code> if it is not/cannot listen due to
+protocol. <code class="code">getsockopt</code> only.
+</p>
+</dd>
+<dt><code class="code">SO_ERROR</code></dt>
+<dd><p><code class="code">val</code> will point to an <code class="code">uint32_t</code>. The value will be written with the
+present socket error if any, or <code class="code">0</code> if none are present. <code class="code">getsockopt</code>
+only.
+</p>
+</dd>
+<dt><code class="code">SO_SNDBUF</code></dt>
+<dd><p><code class="code">val</code> will point to an <code class="code">uint32_t</code>. If getting the value, the current
+send-buffer size will be returned, else, it setting it, the passed size will
+be used for the same buffer.
+</p>
+</dd>
+<dt><code class="code">SO_TYPE</code></dt>
+<dd><p><code class="code">val</code> will point to an <code class="code">uint32_t</code>. The type of socket will be
+returned in that variable in the same format as see <a class="pxref" href="socket.html">socket</a>.
+<code class="code">getsockopt</code> only.
+</p></dd>
+</dl>
+
+<p>The syscall returns 0 on success or <code class="code">-1</code> on failure, with the errno:
+</p>
+<dl class="table">
+<dt><code class="code">EBADFD</code></dt>
+<dd><p><code class="code">fd</code> was not open, or is not a socket.
+</p>
+</dd>
+<dt><code class="code">EACCES</code></dt>
+<dd><p><code class="code">val</code> did not point to valid memory.
+</p>
+</dd>
+<dt><code class="code">EINVAL</code></dt>
+<dd><p>The passed <code class="code">name</code> or <code class="code">level</code> were not valid.
+</p></dd>
+</dl>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="gettidid_002fsettidid.html">gettidid/settidid</a>, Previous: <a href="shmget.html">shmget</a>, Up: <a href="Syscalls.html">Syscalls</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>
