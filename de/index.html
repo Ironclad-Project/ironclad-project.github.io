@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Ironclad ist ein freies formal verifiziertes Betriebssystemkern geschrieben in SPARK/Ada"/>
+    <link rel="stylesheet" href="../styles/ironclad.css">
+    <link rel="icon" type="image/x-icon" href="../resources/favicon.ico">
+    <title>Ironclad</title>
+    <link rel="alternate" hreflang="en" href="https://ironclad.nongnu.org/index.html"/>
+    <link rel="alternate" hreflang="es" href="https://ironclad.nongnu.org/es/index.html"/>
+    <link rel="alternate" hreflang="de" href="https://ironclad.nongnu.org/de/index.html"/>
+    <link rel="alternate" hreflang="pt" href="https://ironclad.nongnu.org/pt/index.html"/>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="navbar-left">
+          <a href="index.html"><strong>Ironclad</strong></a>
+          <a href="../manual/index.html"><img src="../resources/documentation.svg"/>Dokumentation</a>
+          <a href="../community.html"><img src="../resources/community.svg"/>Community</a>
+          <a href="../contributing.html"><img src="../resources/contributing.svg"/>Beitragen</a>
+        </div>
+        <div class="navbar-right">
+          <div class="dropdown">
+            <button class="dropbtn"><img src="../resources/languages.svg"/>Deutsch</button>
+            <div class="dropdown-content">
+              <a href="index.html">Deutsch</a>
+              <a href="../index.html">English</a>
+              <a href="../es/index.html">Español</a>
+              <a href="../pt/index.html">Português</a>
+            </div>
+          </div>
+          <a href="https://github.com/streaksu/gloire/releases/"><img src="../resources/download.svg"/>Herunterladen</a>
+          <a href="https://savannah.nongnu.org/projects/ironclad/"><img src="../resources/repositories.svg"/>Repos</a>
+        </div>
+      </nav>
+    </header>
+    <section>
+      <div class="hero">
+        <div>
+          <h1>Der <b>Ironclad</b>-Betriebssystemkern</h1>
+          <p>
+            Ironclad ist ein <a href="verification.html">formal verifiziertes</a>, echtzeitfähiges, UNIX-ähnliches
+            Betriebssystemkern, welches für Mehrzweck- und Embeddedverwendungen geeignet ist. Es wurde in
+            <a href="https://www.adacore.com/about-spark">SPARK</a> und
+            <a href="https://de.wikipedia.org/wiki/Ada_(Programmiersprache)">Ada</a> geschrieben, und
+            besteht aus 100% freier Software.
+          </p>
+          <p>
+            Ironclad verfügt über eine vertraute <a href="https://de.wikipedia.org/wiki/POSIX">POSIX</a>-kompatible Schnittstelle,
+            symmetrisches Multiprocessing, <a href="https://de.wikipedia.org/wiki/Mandatory_Access_Control">Mandatory Access Control (MAC)</a>,
+            und Unterstützung für hartes Echtzeitscheduling.
+          </p>
+          <div class="buttonlist">
+            <button class="download-button" role="button" onclick="window.location.href='https://github.com/streaksu/gloire/releases/';">Eine Distribution herunterladen</button>
+            <button class="download-button" role="button" onclick="window.location.href='https://download.savannah.nongnu.org/releases/ironclad/';">Ironclad-Tarball herunterladen</button>
+          </div>
+        </div>
+        <a href="takao.html"><img src="../resources/screenshot.png" width="100%"></a>
+      </div>
+      <div style="padding: 20px; text-align: center;">
+        <h2>Warum Ironclad?</h2>
+        <div class="tiles-container">
+          <div class="tile">
+            <h2><img src="../resources/foss.svg" style="margin-right: 5px" width="6%"/>Frei wie in Freiheit</h2>
+            <p>
+              Ironclad ist vollständig Open Source und wird unter der <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a> verteilt, welche
+              gewährleistet, dass Ironclad frei bleibt. Firmwareblobs sind weder notwendig noch mit dem Kernel
+              geliefert. Jede Komponente des Softwarestacks ist Open Source.
+            </p>
+          </div>
+          <div class="tile">
+            <h2><img src="../resources/formalverification.svg" style="margin-right: 5px" width="6%"/>Formale Verifikation</h2>
+            <p>
+              Die <a href="verification.html">formale Verifikation</a> durch <a href="https://www.adacore.com/about-spark">SPARK</a> wird verwendet,
+              um die Abwesenheit von Fehlern und die Korrektheit von großen Teilen von Ironclad zu gewährleisten, wie zum Beispiel
+              Kryptographie, <a href="https://de.wikipedia.org/wiki/Mandatory_access_control">MAC</a>, und Interprozesskommunikation.
+            </p>
+          </div>
+          <div class="tile">
+            <h2><img src="../resources/portable.svg" style="margin-right: 5px" width="6%"/>Portable</h2>
+            <p>
+              Auf mehreren unterschiedlichen Plattformen und Platinen portiert, und leicht
+              auf andere Plattformen portierbar. Die GNU-Toolchain als einzige Abhängigkeit
+              erleichtert die Cross-Kompilierung.
+            </p>
+          </div>
+          <div class="tile">
+            <h2><img src="../resources/ecosystem.svg" style="margin-right: 5px" width="6%"/>Distributionen und Ökosystem</h2>
+            <p>
+              <a href="https://de.wikipedia.org/wiki/POSIX">POSIX</a>-Kompatibilität erleichtert das Portieren von Software und die Softwareentwicklung.
+              Das Projekt verfügt über Distributionen, die zum Download und zur Verwendung bereit stehen,
+              und alle verfügbaren Architekturen und Platinen unterstützen. Die Prominenteste FOSS-Distribution
+              ist <a href="https://github.com/Ironclad-Project/Gloire">Gloire</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div div style="padding: 20px; text-align: center;">
+        <h2>Aktuelle Nachrichten <a href="https://savannah.nongnu.org/news/atom.php?group=ironclad"><img class="rss-logo" alt="rss logo" src="../resources/feed.svg"></a></h2>
+        <div style="text-align: left; border-bottom: 1px solid #ddd">
+          <h3>util-ironclad 0.1.0 released</h3>
+          <p>2025-Mar-04</p>
+          <p>
+            This release marks the first release of util-ironclad, the ironclad
+            alternative for util-linux that distro maintainers can use for
+            providing system management userland utilities like blkid, ps, dmesg,
+            lspci, mount/umount, and the like.
+          </p>
+          <p>
+            <a href="https://savannah.nongnu.org/news/?id=10733">Read more</a>
+          </p>
+        </div>
+        <div style="text-align: left; border-bottom: 1px solid #ddd">
+          <h3>Moving from Paypal to Stripe for donations</h3>
+          <p>2025-Mar-02</p>
+          <p>
+            Ironclad will be moving for its donations to Stripe from Paypal. This
+            is done to make our processing easier and allowing people to do
+            donations without a PayPal account, just using a credit card or
+            bank transfer. We feel this is way more privacy respecting and will
+          </p>
+          <p>
+            <a href="https://savannah.nongnu.org/news/?id=10731">Read more</a>
+          </p>
+        </div>
+        <div style="text-align: left; border-bottom: 1px solid #ddd">
+          <h3>Ironclad 0.6.0 released</h3>
+          <p>2025-Feb-01</p>
+          <p>
+            This release comes after a long gap of releases, and has had massive work done on
+            almost every aspect of the kernel. Because of this, I find it hard to summarize
+            the changes, but a gist of it is:
+          </p>
+          <p>
+            <a href="https://savannah.nongnu.org/news/?id=10719">Read more</a>
+          </p>
+        </div>
+        <p>
+          Further news can be read
+          <a href="https://savannah.nongnu.org/news/?group_id=12228">here</a>.
+        </p>
+      </div>
+      <div div style="padding: 20px; text-align: center;">
+        <h2>Wer bezahlt für Ironclad?</h2>
+        <div style="text-align: left">
+          <p>
+            Ironclad wird ausschließlich durch Spenden finanziert.
+            Spenden erlauben uns mehr Zeit im Projekt zu investieren und helfen
+            uns Entwicklungskosten zu decken. Wir schätzen Spenden jeder Größe.
+          </p>
+          <p>
+            Wir sind außerdem dazu bereit im Gegenzug für Spenden
+            bestimmte Verbesserungs- oder Änderungsvorschläge in Betracht zu
+            ziehen oder technische Hilfe zu leisten. Um genaueres zu besprechen,
+            bitte eine email an
+            <a href="mailto:streaksu@mailbox.org">streaksu@mailbox.org</a> senden.
+          </p>
+          <p>
+            Falls erwünscht, kann der Name des Spenders auf dieser Homepage
+            erscheinen. Bitte senden Sie uns dafür eine email.
+          </p>
+          </div>
+        <div style="text-align: center;">
+          <p><b>Danke für Ihre Unterstützung!</b></p>
+          <a href="https://liberapay.com/streaksu/donate"><img alt="Mit Liberapay spenden" src="https://liberapay.com/assets/widgets/donate.svg" style="width:150px;height:50px;"></a>
+        </div>
+      </div>
+      <div div style="padding: 20px; text-align: center;">
+        <h2>Herzlichen Dank an</h2>
+        <a href="https://adacore.com"><img class="thanks-logo" src="../resources/adacore.svg" alt="AdaCore"></a>
+        <a href="https://limine-bootloader.org"><img class="thanks-logo" src="../resources/limine.png" alt="Limine"></a>
+        <a href="https://fsf.org"><img class="thanks-logo" src="../resources/fsf.svg" alt="Free Software Foundation"></a>
+        <a href="https://nlnet.nl"><img class="thanks-logo" src="../resources/nlnet.svg" alt="NLNet"></a>
+      </div>
+    </section>
+    <footer>
+      <p>
+        Copyright © 2025 The Ironclad Project
+      </p>
+      <p>
+        Wir akzeptieren Übersetzungen und andere Verbesserungen auf unserer
+        savannah-Seite, mithilfe des Issue- und Patch-Trackers.
+      </p>
+      <p>
+        Icons auf dieser Seite wurden freundlicherweise vom MATE-Projekt zur Verfügung gestellt
+        als Teil von <a href="https://github.com/mate-desktop/mate-icon-theme">mate-icon-theme</a>,
+        und sind separat lizenziert unter CC BY-SA 3.0
+      </p>
+    </footer>
+  </body>
+</html>
