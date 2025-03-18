@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Ironclad is a free software formally verified kernel written in SPARK/Ada"/>
+    <link rel="stylesheet" href="styles/ironclad.css">
+    <link rel="icon" type="image/x-icon" href="resources/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/ada.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <title>Ironclad - Supported Hardware</title>
+  </head>
+  <body>
+    <header>
+        <nav>
+            <div class="navbar-left">
+              <a href="index.html"><strong>Ironclad</strong></a>
+              <div class="dropdown">
+                <button class="dropbtn"><img src="resources/documentation.svg"/>Documentation</button>
+                <div class="dropdown-content">
+                  <a href="manual/index.html">User manual</a>
+                  <a href="verification.html">Formal verification</a>
+                  <a href="supportedhardware.html">Supported hardware</a>
+                </div>
+              </div>
+              <a href="community.html"><img src="resources/community.svg"/>Community</a>
+              <a href="contributing.html"><img src="resources/contributing.svg"/>Contributing</a>
+            </div>
+            <div class="navbar-right">
+              <div class="dropdown">
+                <button class="dropbtn"><img src="resources/languages.svg"/>English</button>
+                <div class="dropdown-content">
+                  <a href="de/index.html">Deutsch</a>
+                  <a href="index.html">English</a>
+                  <a href="es/index.html">Español</a>
+                  <a href="pt/index.html">Português</a>
+                </div>
+              </div>
+              <a href="https://github.com/streaksu/gloire/releases/"><img src="resources/download.svg"/>Download</a>
+              <a href="https://repos.ironclad-os.org"><img src="resources/repositories.svg"/>Repositories</a>
+            </div>
+          </nav>
+    </header>
+    <section>
+      <h1>Supported hardware</h1>
+      <p>
+        Here is a list of all officially supported hardware by Ironclad. This
+        list may be a bit out of date, as it is only updated with Ironclad
+        releases.
+      </p>
+      <p>
+        This lists only detail support for mainlined, official, Ironclad
+        releases, and do not contain second party or unofficial, not yet merged
+        hardware support. We will add interesting second hand supported
+        hardware and where to find the projects implementing it as we find them.
+      </p>
+      <h2>Targets and boards</h2>
+      <table>
+        <tr>
+          <th>Target</th>
+          <th>Boards the target provides support for</th>
+          <th>Board specific hardware supported</th>
+          <th>Support quality</th>
+        </tr>
+        <tr>
+          <td>riscv64-limine</td>
+          <td>Systems with a limine-protocol compatible bootloader, usually UEFI-enabled</td>
+          <td></td>
+          <td style="background-color:orange;color:white">In development</td>
+        </tr>
+        <tr>
+            <td>x86_64-limine</td>
+            <td>UEFI and BIOS x86_64 computers with an HPET</td>
+            <td>PC speaker, PCI bus connection, ACPI power management</td>
+            <td style="background-color:green;color:white">Stable</td>
+        </tr>
+      </table>
+      <h2>Target-independent hardware</h2>
+      <table>
+        <tr>
+          <th>Hardware</th>
+          <th>Notes</th>
+        </tr>
+        <tr>
+          <td>i63000esb</td>
+          <td>Watchdog supported only</td>
+        </tr>
+        <tr>
+          <td>NVMe storage</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>SATA storage</td>
+          <td>No SATAPI support provided</td>
+        </tr>
+      </table>
+    </main>
+    <footer>
+      <p>
+        Copyright © 2025 The Ironclad Project
+      </p>
+      <p>
+        We accept translations and other improvements in our savannah
+        page, using the patch and issue trackers.
+      </p>
+    </footer>
+  </body>
+</html>
